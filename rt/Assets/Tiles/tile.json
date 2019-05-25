@@ -1,0 +1,26 @@
+{
+  "models": [ "cube.json" ],
+  "textures": [ "empty.png", "black.png" ],
+  "properties": {
+    "face": "side",
+    "active": "bool"
+  },
+  "states": [
+    {
+      // def state
+      "model": 0,
+      "layers": {
+        "0": 0,
+        "_": 1
+      }
+    },
+    {
+      "values": {
+        "face": "u",
+        "active": true
+      },
+      "name": "active_state",
+      "transform": [ "flip_x", "turn_y" ]
+    }
+  ]
+}

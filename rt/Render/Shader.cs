@@ -13,7 +13,7 @@ namespace RT.Render
             Name = name;
 
             Index = GL.CreateShader(type);
-            GL.ShaderSource(Index, Resource.LoadText("/Shaders/" + name));
+            GL.ShaderSource(Index, Loader.LoadText(Ref.Shaders + name));
             GL.CompileShader(Index);
 
             GL.GetShader(Index, ShaderParameter.CompileStatus, out int isCompiled);

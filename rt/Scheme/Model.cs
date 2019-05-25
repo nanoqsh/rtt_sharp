@@ -1,31 +1,13 @@
-﻿using Newtonsoft.Json;
-using OpenTK;
-using RT.Scheme.Converters;
-using System.Collections.Generic;
-
-namespace RT.Scheme
+﻿namespace RT.Scheme
 {
-#pragma warning disable CS0649
     class Model
     {
-        [JsonProperty(Required = Required.Always)]
-        public readonly List<Vector3> Positions;
+        public readonly float[,]? Positions;
+        public readonly float[,]? Normals;
+        public readonly float[,]? TextureMap;
+        public readonly Face[]? Faces;
 
-        [JsonProperty(Required = Required.Always)]
-        public readonly List<Vector3> Normals;
-
-        [JsonProperty(Required = Required.Always)]
-        public readonly List<Vector2> TextureMap;
-
-        [JsonProperty(Required = Required.Always)]
-        public readonly List<Face> Faces;
-
-        public Model(
-            [JsonConverter(typeof(Vector3ListConverter))] List<Vector3> positions,
-            [JsonConverter(typeof(Vector3ListConverter))] List<Vector3> normals,
-            [JsonConverter(typeof(Vector2ListConverter))] List<Vector2> textureMap,
-            List<Face> faces
-            )
+        public Model(float[,]? positions, float[,]? normals, float[,]? textureMap, Face[]? faces)
         {
             Positions = positions;
             Normals = normals;
@@ -33,5 +15,4 @@ namespace RT.Scheme
             Faces = faces;
         }
     }
-#pragma warning enable CS0649
 }
