@@ -1,0 +1,9 @@
+{
+  "default": {
+    "layers": {
+      "0": 0,
+      "_": 1
+    },
+    "transform": "fx ty tz"
+  }
+}
