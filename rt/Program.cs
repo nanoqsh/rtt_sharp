@@ -1,4 +1,5 @@
-﻿using RT.Scheme;
+﻿using RT.Engine;
+using RT.Scheme;
 using System;
 
 namespace RT
@@ -9,9 +10,9 @@ namespace RT
         {
             // new Core().Init();
 
-            Tile tile = Loader.LoadTile("tile_child.json");
+            // Tile tile = Loader.LoadTile("tile_child.json");
 
-            Model model = Loader.LoadModel("model.json");
+            // Model model = Loader.LoadModel("model.json");
 
             Console.ReadKey();
         }
