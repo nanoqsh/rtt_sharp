@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using RT.Engine;
 
 namespace RT.Render
 {
@@ -8,25 +9,21 @@ namespace RT.Render
 
         public readonly Vector3[] Positions;
         public readonly Vector2[] TextureMap;
-        public readonly Vector3[] Normals;
+        public readonly uint Layer;
+        public readonly Side Contact;
+        public readonly Vector3 Normal;
 
-        public Face(Vector3[] positions, Vector2[] textureMap, Vector3[]? normals = null)
+        public Face(Vector3[] positions, Vector2[] textureMap, uint layer, Side contact, Vector3? normal = null)
         {
             Positions = positions;
             TextureMap = textureMap;
-
-            if (normals == null)
-            {
-                Vector3 normal = Calculator.CalculateNormal(
-                    positions[0],
-                    positions[1],
-                    positions[2]
-                    );
-
-                normals = new Vector3[] { normal, normal, normal, normal };
-            }
-
-            Normals = normals;
+            Layer = layer;
+            Contact = contact;
+            Normal = normal ?? Calculator.CalculateNormal(
+                positions[0],
+                positions[1],
+                positions[2]
+                );
         }
     }
 }

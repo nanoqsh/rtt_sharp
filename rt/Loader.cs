@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using RT.Exceptions;
 using RT.Scheme;
+using RT.Scheme.Requirements;
+using System.Collections.Generic;
 using System.IO;
 
 namespace RT
@@ -24,8 +27,19 @@ namespace RT
             return File.ReadAllText(path);
         }
 
-        public static Model LoadModel(string file) =>
-            JsonConvert.DeserializeObject<Model>(LoadText(Ref.Models + file), settings);
+        public static Model LoadModel(string file)
+        {
+            Model model = JsonConvert.DeserializeObject<Model>(
+                LoadText(Ref.Models + file),
+                settings
+                );
+
+            List<string> errors = ModelRequirements.Check(model);
+            if (errors.Count != 0)
+                throw new LoaderException(file, errors);
+
+            return model;
+        }
 
         public static Tile LoadTile(string file)
         {

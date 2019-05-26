@@ -2,6 +2,7 @@
 {
     enum Side
     {
+        None  = 0,
         Up    = 1 << 0,
         Down  = 1 << 1,
         Left  = 1 << 2,
@@ -22,5 +23,24 @@
             Side.Back  => Side.Front,
             _          => throw Undefined<Side>.Error
         };
+
+        public static Side FromString(string text)
+        {
+            Side result = Side.None;
+
+            foreach (char c in text.ToLower())
+                result |= c switch
+                {
+                    'u' => Side.Up,
+                    'd' => Side.Down,
+                    'l' => Side.Left,
+                    'r' => Side.Right,
+                    'f' => Side.Front,
+                    'b' => Side.Back,
+                    _   => Side.None
+                };
+
+            return result;
+        }
     }
 }
