@@ -1,5 +1,4 @@
 ﻿using RT.Engine;
-using System.Collections.Generic;
 
 namespace RT.Render
 {

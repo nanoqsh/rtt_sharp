@@ -5,21 +5,19 @@
     "face": "side",
     "active": "bool"
   },
+  "default": {
+    "model": 0,
+    "layers": {
+      "0" : 0,
+      "_" : "black.png"
+    }
+  },
   "states": [
-    {
-      // def state
-      "model": 0,
-      "layers": {
-        "0": 0,
-        "_": 1
-      }
-    },
     {
       "values": {
         "face": "u",
         "active": true
       },
-      "name": "active_state",
       "transform": [ "flip_x", "turn_y" ]
     }
   ]

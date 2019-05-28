@@ -42,5 +42,8 @@
 
             return result;
         }
+
+        public static bool Contain(this Side side, Side other) =>
+            (side & other) == other;
     }
 }

@@ -3,10 +3,6 @@
   "textures": [ "old.png", "new.png" ],
   "states": [
     {
-      "name": "active_state",
-      "transform": [ "flip_z" ]
-    },
-    {
       "values": { "active": false },
       "model": 1
     }

@@ -1,0 +1,10 @@
+{
+  "priority": 9, // 0 - 9
+  "textures": [
+    "corner.png",
+    "edge.png",
+    "adjacent_edges.png",
+    "three_adjacent_edges.png",
+    "four_adjacent_edges.png"
+  ]
+}
