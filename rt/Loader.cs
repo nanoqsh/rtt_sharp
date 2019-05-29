@@ -43,15 +43,26 @@ namespace RT
 
         public static Tile LoadTile(string file)
         {
+            return LoadTileParent(file, new List<string>());
+        }
+
+        private static Tile LoadTileParent(string file, List<string> loaded)
+        {
+            if (loaded.Contains(file))
+                throw new LoaderException(file, new List<string> {
+                    $"Recursive inheritance: {string.Join(" -> ", loaded)} -> {file}"
+                });
+
             Tile tile = JsonConvert.DeserializeObject<Tile>(
                 LoadText(Ref.Tiles + file),
                 settings
                 );
 
-            if (tile.Parent == null)
-                return tile;
+            loaded.Add(file);
+            if (tile.Parent != null)
+                tile = Tile.Inherit(tile, LoadTileParent(tile.Parent, loaded));
 
-            return Tile.InheritTile(LoadTile(tile.Parent), tile);
+            return tile;
         }
     }
 }

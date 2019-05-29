@@ -1,10 +1,22 @@
 {
   "parent": "tile.json",
+  "models": [ "cube.json", "model.json" ],
   "textures": [ "old.png", "new.png" ],
   "states": [
     {
       "values": { "active": false },
       "model": 1
+    },
+    {
+      "layers": {
+        "0": 0,
+        "_": "white.png"
+      },
+      "model": 1,
+      "values": {
+        "face": "u",
+        "active": true
+      }
     }
   ]
 }

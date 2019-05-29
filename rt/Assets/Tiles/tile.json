@@ -1,6 +1,8 @@
 {
   "models": [ "cube.json" ],
   "textures": [ "empty.png", "black.png" ],
+  "cover": "cover.json",
+  "cover_sides": "u",
   "properties": {
     "face": "side",
     "active": "bool"
@@ -8,17 +10,22 @@
   "default": {
     "model": 0,
     "layers": {
-      "0" : 0,
-      "_" : "black.png"
+      "0": 0,
+      "_": "black.png"
     }
   },
   "states": [
     {
+      "layers": {
+        "0": 0,
+        "_": "black.png"
+      },
+      "model": 0,
+      "transform": [ "flip_x", "turn_y" ],
       "values": {
         "face": "u",
         "active": true
-      },
-      "transform": [ "flip_x", "turn_y" ]
+      }
     }
   ]
 }

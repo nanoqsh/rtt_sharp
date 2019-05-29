@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using OpenTK;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RT.Engine
@@ -12,7 +13,7 @@ namespace RT.Engine
         public Side Front { get; private set; }
         public Side Back { get; private set; }
 
-        private delegate (float, float, float) PointTransform(float x, float y, float z);
+        private delegate Vector3 PointTransform(Vector3 point);
         private readonly List<PointTransform> transforms;
 
         public Box()
@@ -33,17 +34,17 @@ namespace RT.Engine
             {
                 case Axis.X:
                     (Front, Back) = (Back, Front);
-                    transforms.Add((x, y, z) => (-x, y, z));
+                    transforms.Add(p => new Vector3(-p.X, p.Y, p.Z));
                     break;
 
                 case Axis.Y:
                     (Up, Down) = (Down, Up);
-                    transforms.Add((x, y, z) => (x, -y, z));
+                    transforms.Add(p => new Vector3(p.X, -p.Y, p.Z));
                     break;
 
                 case Axis.Z:
                     (Left, Right) = (Right, Left);
-                    transforms.Add((x, y, z) => (x, y, -z));
+                    transforms.Add(p => new Vector3(p.X, p.Y, -p.Z));
                     break;
 
                 default:
@@ -59,17 +60,17 @@ namespace RT.Engine
             {
                 case Axis.X:
                     (Right, Down, Left, Up) = (Up, Right, Down, Left);
-                    transforms.Add((x, y, z) => (x, -z, y));
+                    transforms.Add(p => new Vector3(p.X, -p.Z, p.Y));
                     break;
 
                 case Axis.Y:
                     (Left, Back, Right, Front) = (Front, Left, Back, Right);
-                    transforms.Add((x, y, z) => (z, y, -x));
+                    transforms.Add(p => new Vector3(p.Z, p.Y, -p.X));
                     break;
 
                 case Axis.Z:
                     (Front, Down, Back, Up) = (Up, Front, Down, Back);
-                    transforms.Add((x, y, z) => (-y, x, z));
+                    transforms.Add(p => new Vector3(-p.Y, p.X, p.Z));
                     break;
 
                 default:
@@ -79,8 +80,8 @@ namespace RT.Engine
             return this;
         }
 
-        public (float, float, float) TransformPoint(float x, float y, float z) =>
-            transforms.Aggregate((x, y, z), (p, t) => t(p.x, p.y, p.z));
+        public Vector3 TransformPoint(Vector3 point) =>
+            transforms.Aggregate(point, (p, t) => t(p));
 
         public override string ToString()
         {

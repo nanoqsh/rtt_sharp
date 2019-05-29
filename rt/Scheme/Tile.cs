@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RT.Scheme
 {
@@ -6,53 +8,44 @@ namespace RT.Scheme
     {
         public readonly string[]? Models;
         public readonly string[]? Textures;
+        public readonly string? Cover;
+        public readonly string? CoverSides;
         public readonly Dictionary<string, string>? Properties;
+        public readonly State? Default;
         public readonly State[]? States;
         public readonly string? Parent;
 
-        public Tile(string[]? models, string[]? textures, Dictionary<string, string>? properties, State[]? states, string? parent)
+        public Tile(string[]? models, string[]? textures, string? cover, string? coverSides, Dictionary<string, string>? properties, [JsonProperty("default")] State? defaultState, State[]? states, string? parent)
         {
             Models = models;
             Textures = textures;
+            Cover = cover;
+            CoverSides = coverSides;
             Properties = properties;
+            Default = defaultState;
             States = states;
             Parent = parent;
         }
 
-        public static Tile InheritTile(Tile parent, Tile child)
+        public static Tile Inherit(Tile child, Tile parent)
         {
-            string[]? models = child.Models ?? parent.Models;
-            string[]? textures = child.Textures ?? parent.Textures;
-            Dictionary<string, string>? properties = child.Properties ?? parent.Properties;
+            State defaultState = State.Inherit(
+                child.Default ?? State.Empty,
+                parent.Default ?? State.Empty
+                );
 
-            State[]? states = child.Properties == null
-                ? MergeStates(parent.States ?? new State[0], child.States ?? new State[0])
-                : child.States;
-
-            return new Tile(models, textures, properties, states, null);
-        }
-
-        private static State[] MergeStates(State[] parentStates, State[] childStates)
-        {
-            Dictionary<string, State> named = new Dictionary<string, State>();
-            List<State> result = new List<State>();
-
-            foreach (State state in parentStates)
-                if (state.Name == null)
-                    result.Add(state);
-                else
-                    named.Add(state.Name, state);
-
-            foreach (State state in childStates)
-                if (state.Name == null)
-                    result.Add(state);
-                else if (named.ContainsKey(state.Name))
-                    named[state.Name] = State.InheritState(named[state.Name], state);
-                else
-                    named.Add(state.Name, state);
-
-            result.AddRange(named.Values);
-            return result.ToArray();
+            return new Tile(
+                child.Models ?? parent.Models,
+                child.Textures ?? parent.Textures,
+                child.Cover ?? parent.Cover,
+                child.CoverSides ?? parent.CoverSides,
+                child.Properties ?? parent.Properties,
+                defaultState,
+                child.States == null
+                    ? parent.States
+                    : parent.States.Concat(child.States).ToArray(),
+                null
+                );
         }
     }
 }

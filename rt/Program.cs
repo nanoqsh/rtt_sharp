@@ -1,6 +1,4 @@
-﻿using RT.Engine;
-using RT.Scheme;
-using RT.Scheme.Converters;
+﻿using RT.Render;
 using System;
 
 namespace RT
@@ -9,12 +7,11 @@ namespace RT
     {
         static void Main(string[] args)
         {
-            // new Core().Init();
+            Core core = Core.Inst;
 
-            // Tile tile = Loader.LoadTile("tile_child.json");
+            Model model = core.Resource.LoadModel("model.json");
 
-            Model model = Loader.LoadModel("model.json");
-            Render.Model renderModel = ModelConverter.Convert(model);
+            Scheme.Tile tile = Loader.LoadTile("tile_child.json");
 
             Console.ReadKey();
         }
