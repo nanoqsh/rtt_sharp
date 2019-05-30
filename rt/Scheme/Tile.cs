@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace RT.Scheme
@@ -10,42 +9,40 @@ namespace RT.Scheme
         public readonly string[]? Textures;
         public readonly string? Cover;
         public readonly string? CoverSides;
-        public readonly Dictionary<string, string>? Properties;
         public readonly State? Default;
         public readonly State[]? States;
+        public readonly State[]? AddStates;
         public readonly string? Parent;
 
-        public Tile(string[]? models, string[]? textures, string? cover, string? coverSides, Dictionary<string, string>? properties, [JsonProperty("default")] State? defaultState, State[]? states, string? parent)
+        public Tile(string[]? models, string[]? textures, string? cover, string? coverSides, [JsonProperty("default")] State? defaultState, State[]? states, State[]? addStates, string? parent)
         {
             Models = models;
             Textures = textures;
             Cover = cover;
             CoverSides = coverSides;
-            Properties = properties;
             Default = defaultState;
             States = states;
+            AddStates = addStates;
             Parent = parent;
         }
 
-        public static Tile Inherit(Tile child, Tile parent)
-        {
-            State defaultState = State.Inherit(
-                child.Default ?? State.Empty,
-                parent.Default ?? State.Empty
-                );
-
-            return new Tile(
+        public static Tile Inherit(Tile child, Tile parent) =>
+            new Tile(
                 child.Models ?? parent.Models,
                 child.Textures ?? parent.Textures,
                 child.Cover ?? parent.Cover,
                 child.CoverSides ?? parent.CoverSides,
-                child.Properties ?? parent.Properties,
-                defaultState,
-                child.States == null
-                    ? parent.States
-                    : parent.States.Concat(child.States).ToArray(),
+                State.Inherit(
+                    child.Default ?? State.Empty,
+                    parent.Default ?? State.Empty
+                    ),
+                child.AddStates == null
+                    ? child.States ?? parent.States
+                    : parent.States != null
+                        ? parent.States.Concat(child.AddStates).ToArray()
+                        : child.AddStates,
+                null,
                 null
                 );
-        }
     }
 }

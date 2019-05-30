@@ -7,14 +7,12 @@ namespace RT.Engine
     {
         public readonly Model Model;
         public readonly uint[] Layers;
-        public readonly Dictionary<string, object> Values;
         public readonly Box Box;
 
-        public State(Model model, uint[] layers, Dictionary<string, object> values, Box box)
+        public State(Model model, uint[] layers, Box box)
         {
             Model = model;
             Layers = layers;
-            Values = values;
             Box = box;
         }
     }

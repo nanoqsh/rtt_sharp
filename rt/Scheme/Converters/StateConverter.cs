@@ -1,6 +1,5 @@
 ﻿using RT.Engine;
 using System;
-using System.Collections.Generic;
 
 namespace RT.Scheme.Converters
 {
@@ -13,19 +12,17 @@ namespace RT.Scheme.Converters
                 ? new Box()
                 : BoxFromTransform(state.Transform);
 
-            Dictionary<string, object> values = state.Values ?? new Dictionary<string, object>();
-
-            if (tile.Models == null || state.Model == null || state.Model >= tile.Models.Length)
+            if (tile.Models == null || state.Model == null)
                 throw undefModel;
 
-            Render.Model? model = Core.Inst.Resource.LoadModel(tile.Models[(int)state.Model]);
+            Render.Model? model = Core.Unit.Resource.LoadModel(tile.Models[(int)state.Model]);
 
             if (model == null)
                 throw undefModel;
 
-            // state.Layers
+            uint[] layers = new uint[0];
 
-            return new Engine.State(model, null, values, box);
+            return new Engine.State(model, layers, box);
         }
 
         private static Box BoxFromTransform(string[] transform)

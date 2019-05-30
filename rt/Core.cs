@@ -4,12 +4,12 @@ namespace RT
 {
     class Core
     {
-        public readonly Window Window;
+        // public readonly Window Window;
         public readonly Player Player;
         public readonly Map Map;
         public readonly Resource Resource;
 
-        public static Core Inst = new Core();
+        public static Core Unit = new Core();
 
         public Core()
         {
