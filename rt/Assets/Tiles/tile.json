@@ -1,22 +1,15 @@
 {
   "models": [ "model.json" ],
-  "textures": [ "empty.png", "black.png" ],
+  "textures": [ "empty.png", "black.png", "black.png" ],
   "cover": "cover.json",
   "cover_sides": "u",
   "default": {
     "model": 0,
-    "layers": {
-      "0": 0,
-      "_": "black.png"
-    }
+    "layers": [ 0, 1, 2 ]
   },
   "states": [
     {
-      "layers": {
-        "0": 0,
-        "_": "black.png"
-      },
-      "model": 0,
+      "layers": [ 1, 1, 1 ],
       "transform": [ "flip_x", "turn_y" ]
     }
   ]

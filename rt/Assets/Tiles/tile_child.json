@@ -1,6 +1,6 @@
 {
   "parent": "tile.json",
-  "textures": [ "old.png", "new.png" ],
+  "textures": [ "old.png", "new.png", "new.png" ],
   "states": [
     {
       "model": 0,

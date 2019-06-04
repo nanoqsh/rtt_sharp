@@ -4,7 +4,7 @@ namespace RT.Scheme.Requirements
 {
     static class FaceRequirements
     {
-        public static List<string> Check(Face face)
+        public static List<string> Check(Face face, Model model)
         {
             List<string> errors = new List<string>();
 
@@ -28,6 +28,16 @@ namespace RT.Scheme.Requirements
 
             if (face.Data != null && face.Data.Positions != null && face.Data.TextureMap != null && face.Data.Positions.Length != face.Data.TextureMap.Length)
                 errors.Add("'positions' and 'texture_map' in 'data' of face must contain the same amount of numbers");
+
+            if (face.Data != null && face.Data.Positions != null && model.Positions != null)
+                foreach (uint p in face.Data.Positions)
+                    if (p >= model.Positions.GetLength(0))
+                        errors.Add($"'positions' in 'data' of face contains index {p}, but length of model 'positions' only {model.Positions.GetLength(0)}");
+
+            if (face.Data != null && face.Data.TextureMap != null && model.TextureMap != null)
+                foreach (uint p in face.Data.TextureMap)
+                    if (p >= model.TextureMap.GetLength(0))
+                        errors.Add($"'texture_map' in 'data' of face contains index {p}, but length of model 'texture_map' only {model.TextureMap.GetLength(0)}");
 
             return errors;
         }

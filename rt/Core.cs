@@ -1,4 +1,5 @@
 ﻿using RT.Engine;
+using RT.Render;
 
 namespace RT
 {
@@ -8,6 +9,7 @@ namespace RT
         public readonly Player Player;
         public readonly Map Map;
         public readonly Resource Resource;
+        public readonly Atlas Atlas;
 
         public static Core Unit = new Core();
 
@@ -17,6 +19,7 @@ namespace RT
             Player = new Player("nekosora");
             Map = new Map();
             Resource = new Resource();
+            Atlas = new Atlas();
         }
 
         public void Init()

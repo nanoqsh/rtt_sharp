@@ -43,7 +43,13 @@ namespace RT
 
         public static Tile LoadTile(string file)
         {
-            return LoadTileParent(file, new List<string>());
+            Tile tile = LoadTileParent(file, new List<string>());
+
+            List<string> errors = TileRequirements.Check(tile);
+            if (errors.Count != 0)
+                throw new LoaderException(file, errors);
+
+            return tile;
         }
 
         private static Tile LoadTileParent(string file, List<string> loaded)
@@ -61,10 +67,6 @@ namespace RT
             loaded.Add(file);
             if (tile.Parent != null)
                 tile = Tile.Inherit(tile, LoadTileParent(tile.Parent, loaded));
-
-            List<string> errors = TileRequirements.Check(tile);
-            if (errors.Count != 0)
-                throw new LoaderException(file, errors);
 
             return tile;
         }

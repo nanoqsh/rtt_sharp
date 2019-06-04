@@ -22,19 +22,7 @@ namespace RT.Scheme.Requirements
 
             if (model.Faces != null)
                 foreach (Face face in model.Faces)
-                {
-                    errors.AddRange(FaceRequirements.Check(face));
-
-                    if (face.Data != null && face.Data.Positions != null && model.Positions != null)
-                        foreach (uint p in face.Data.Positions)
-                            if (p >= model.Positions.GetLength(0))
-                                errors.Add($"'positions' in 'data' of face contains index {p}, but length of model 'positions' only {model.Positions.GetLength(0)}");
-
-                    if (face.Data != null && face.Data.TextureMap != null && model.TextureMap != null)
-                        foreach (uint p in face.Data.TextureMap)
-                            if (p >= model.TextureMap.GetLength(0))
-                                errors.Add($"'texture_map' in 'data' of face contains index {p}, but length of model 'texture_map' only {model.TextureMap.GetLength(0)}");
-                }
+                    errors.AddRange(FaceRequirements.Check(face, model));
 
             return errors;
         }

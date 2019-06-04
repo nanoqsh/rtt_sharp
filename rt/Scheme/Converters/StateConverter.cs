@@ -1,5 +1,6 @@
 ﻿using RT.Engine;
 using System;
+using System.Linq;
 
 namespace RT.Scheme.Converters
 {
@@ -8,6 +9,8 @@ namespace RT.Scheme.Converters
         public static Engine.State Convert(State state, Tile tile)
         {
             Exception undefModel = new Exception("Undefined model!");
+            Exception undefTexture = new Exception("Undefined texture!");
+
             Box box = state.Transform == null
                 ? new Box()
                 : BoxFromTransform(state.Transform);
@@ -20,9 +23,19 @@ namespace RT.Scheme.Converters
             if (model == null)
                 throw undefModel;
 
-            uint[] layers = new uint[0];
+            if (tile.Textures == null)
+                throw undefTexture;
 
-            return new Engine.State(model, layers, box);
+            uint[]? layers = state.Layers ?? tile.Default?.Layers;
+
+            if (layers == null)
+                throw undefTexture;
+
+            uint[] loaded = layers
+                .Select(l => Core.Unit.Atlas.LoadSprite(tile.Textures[l]))
+                .ToArray();
+
+            return new Engine.State(model, loaded, box);
         }
 
         private static Box BoxFromTransform(string[] transform)

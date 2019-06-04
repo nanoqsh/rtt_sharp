@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-
-namespace RT.Scheme
+﻿namespace RT.Scheme
 {
     class State
     {
         public readonly uint? Model;
-        public readonly Dictionary<string, object>? Layers;
+        public readonly uint[]? Layers;
         public readonly string[]? Transform;
 
-        public State(uint? model, Dictionary<string, object>? layers, string[]? transform)
+        public State(uint? model, uint[]? layers, string[]? transform)
         {
             Model = model;
             Layers = layers;
@@ -22,6 +20,6 @@ namespace RT.Scheme
                 child.Model ?? parent.Model,
                 child.Layers ?? parent.Layers,
                 child.Transform ?? parent.Transform
-                ); 
+                );
     }
 }
