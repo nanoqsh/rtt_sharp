@@ -5,7 +5,7 @@ namespace RT
 {
     class Core
     {
-        // public readonly Window Window;
+        public readonly Window Window;
         public readonly Player Player;
         public readonly Map Map;
         public readonly Resource Resource;
@@ -15,11 +15,15 @@ namespace RT
 
         public Core()
         {
-            // Window = new Window(800, 600, "RTE");
+            Window = new Window(800, 600, "RTE");
             Player = new Player("nekosora");
             Map = new Map();
             Resource = new Resource();
-            Atlas = new Atlas();
+            Atlas = new Atlas(16);
+        }
+
+        public void PreInit()
+        {
         }
 
         public void Init()

@@ -2,14 +2,16 @@
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
+using RT.Engine;
 using System;
 
-namespace RT.Engine
+namespace RT.Render
 {
     class Window
     {
         private readonly GameWindow gameWindow;
         private readonly MousePosition mousePosition;
+        private readonly Frame frame;
 
         public Window(int width, int height, string title, int pixelSize = 1)
         {
@@ -27,6 +29,8 @@ namespace RT.Engine
             gameWindow.Resize += OnResize;
 
             mousePosition = new MousePosition();
+
+            frame = new Frame();
         }
 
         public void Run(double updateRate)
@@ -51,6 +55,7 @@ namespace RT.Engine
 
         private void OnRenderFrame(object sender, FrameEventArgs e)
         {
+            frame.Draw();
             gameWindow.SwapBuffers();
         }
 
@@ -77,7 +82,7 @@ namespace RT.Engine
 
         private void OnResize(object sender, EventArgs e)
         {
-            Rectangle client = gameWindow.ClientRectangle;
+            frame.Resize(gameWindow.ClientRectangle);
         }
 
         private static void CheckOpenGLError()

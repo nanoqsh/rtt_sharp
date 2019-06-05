@@ -4,6 +4,7 @@ using RT.Exceptions;
 using RT.Scheme;
 using RT.Scheme.Requirements;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace RT
@@ -69,6 +70,16 @@ namespace RT
                 tile = Tile.Inherit(tile, LoadTileParent(tile.Parent, loaded));
 
             return tile;
+        }
+
+        public static Bitmap LoadImage(string file)
+        {
+            string path = Ref.Textures + file;
+
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"File {path} not exists!");
+
+            return new Bitmap(path);
         }
     }
 }
