@@ -1,6 +1,5 @@
 ﻿using OpenTK;
 using RT.Engine;
-using System;
 
 namespace RT.Render
 {

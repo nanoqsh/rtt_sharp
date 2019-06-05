@@ -13,6 +13,8 @@ namespace RT
             Model model = core.Resource.LoadModel("model.json");
             Tile tile = core.Resource.LoadTile("tile_child.json");
 
+            var res = model.Faces.GetIndexedVertexes();
+
             Console.ReadKey();
         }
     }
