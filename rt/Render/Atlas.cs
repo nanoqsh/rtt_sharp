@@ -56,7 +56,7 @@ namespace RT.Render
                 map.CopyArea(
                     images[i],
                     (i % sizeInSprites) * spriteSize,
-                    (i / sizeInSprites) * spriteSize,
+                    (sizeInSprites - (i / sizeInSprites) - 1) * spriteSize,
                     spriteSize
                     );
 

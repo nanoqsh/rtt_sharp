@@ -50,7 +50,7 @@
       ],
       "normal": [ 1, 0, 0 ],
       "contact": "f",
-      "layer": 0
+      "layer": 1
     },
     {
       "positions": [
@@ -67,7 +67,7 @@
       ],
       "normal": [ -1, 0, 0 ],
       "contact": "b",
-      "layer": 0
+      "layer": 2
     },
     {
       "positions": [
@@ -84,7 +84,7 @@
       ],
       "normal": [ 0, 0, 1 ],
       "contact": "l",
-      "layer": 0
+      "layer": 3
     },
     {
       "positions": [

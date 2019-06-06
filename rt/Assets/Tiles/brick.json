@@ -1,10 +1,10 @@
 {
   "models": [ "cube.json" ],
-  "textures": [ "brick.png" ],
+  "textures": [ "brick.png", "stone.png", "trap.png", "stonebrick.png" ],
   "states": [
     {
       "model": 0,
-      "layers": [ 0 ]
+      "layers": [ 0, 1, 2, 3 ]
     }
   ]
 }

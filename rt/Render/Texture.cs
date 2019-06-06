@@ -69,13 +69,13 @@ namespace RT.Render
             GL.TexParameter(
                 TextureTarget.Texture2D,
                 TextureParameterName.TextureWrapS,
-                (int)TextureWrapMode.ClampToEdge
+                (int)TextureWrapMode.ClampToBorder
                 );
 
             GL.TexParameter(
                 TextureTarget.Texture2D,
                 TextureParameterName.TextureWrapT,
-                (int)TextureWrapMode.ClampToEdge
+                (int)TextureWrapMode.ClampToBorder
                 );
 
             GL.TexParameter(
