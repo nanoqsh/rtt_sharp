@@ -31,7 +31,7 @@ namespace RT.Render
         public void Update(double delta)
         {
             rot += (float)delta;
-            Matrix4.CreateRotationY(rot, out model);
+            model = Matrix4.CreateRotationY(rot);
         }
 
         public void Draw()

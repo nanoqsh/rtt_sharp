@@ -33,5 +33,13 @@ namespace RT.Render
                 dest.UnlockBits(destData);
             }
         }
+
+        public static Bitmap ConvertTo32bpp(this Bitmap img)
+        {
+            var bmp = new Bitmap(img.Width, img.Height, PixelFormat.Format32bppArgb);
+            using (var gr = Graphics.FromImage(bmp))
+                gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
+            return bmp;
+        }
     }
 }

@@ -41,6 +41,9 @@ namespace RT.Render
                 if (Math.Max(sprite.Width, sprite.Height) != spriteSize)
                     throw new SpriteGlueException(spriteName, spriteSize, Math.Max(sprite.Width, sprite.Height));
 
+                if (sprite.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
+                    sprite = sprite.ConvertTo32bpp();
+
                 images.Add(sprite);
             }
 

@@ -12,8 +12,6 @@ namespace RT
             Core core = Core.Unit;
             core.PreInit();
             core.Init();
-
-            Console.ReadKey();
         }
     }
 }
