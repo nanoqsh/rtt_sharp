@@ -11,7 +11,8 @@ namespace RT.Render
     {
         private readonly GameWindow gameWindow;
         private readonly MousePosition mousePosition;
-        private readonly Frame frame;
+        private Frame? frame;
+        private readonly Camera camera;
 
         public Window(int width, int height, string title, int pixelSize = 1)
         {
@@ -30,7 +31,12 @@ namespace RT.Render
 
             mousePosition = new MousePosition();
 
-            frame = new Frame();
+            camera = new Camera(new Vector3(-3, 0, 0));
+        }
+
+        public void MakeFrame()
+        {
+            frame = new Frame(camera);
         }
 
         public void Run(double updateRate)
@@ -51,11 +57,13 @@ namespace RT.Render
                 // Vector2 delta = mousePosition.Update();
                 // camera.Rotate(delta * sensitivity);
             }
+
+            frame!.Update(e.Time);
         }
 
         private void OnRenderFrame(object sender, FrameEventArgs e)
         {
-            frame.Draw();
+            frame!.Draw();
             gameWindow.SwapBuffers();
         }
 
@@ -82,7 +90,7 @@ namespace RT.Render
 
         private void OnResize(object sender, EventArgs e)
         {
-            frame.Resize(gameWindow.ClientRectangle);
+            frame!.Resize(gameWindow.ClientRectangle);
         }
 
         private static void CheckOpenGLError()

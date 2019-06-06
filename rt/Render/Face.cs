@@ -35,5 +35,21 @@ namespace RT.Render
                     Normal
                     );
         }
+
+        public Face(Face old, Vector2[] textureMap)
+        {
+            Layer = old.Layer;
+            Contact = old.Contact;
+            Normal = old.Normal;
+
+            Vertexes = new Vertex[old.Vertexes.Length];
+
+            for (int i = 0; i < Vertexes.Length; ++i)
+                Vertexes[i] = new Vertex(
+                    old.Vertexes[i].Position,
+                    textureMap[i],
+                    old.Vertexes[i].Normal
+                    );
+        }
     }
 }

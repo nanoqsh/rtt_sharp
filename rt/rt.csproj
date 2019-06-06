@@ -41,7 +41,7 @@
     <None Update="Assets\Textures\trap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\Tiles\test.json">
+    <None Update="Assets\Tiles\brick.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Tiles\tile.json">

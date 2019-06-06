@@ -11,6 +11,10 @@ namespace RT
         public readonly Resource Resource;
         public readonly Atlas Atlas;
 
+        private SpriteMap? spriteMap;
+        public SpriteMap SpriteMap =>
+            spriteMap ?? (spriteMap = Atlas.GlueSprites());
+
         public static Core Unit = new Core();
 
         public Core()
@@ -24,11 +28,12 @@ namespace RT
 
         public void PreInit()
         {
+            Window.MakeFrame();
         }
 
         public void Init()
         {
-            // Window.Run(60);
+            Window.Run(60);
         }
     }
 }

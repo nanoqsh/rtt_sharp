@@ -9,13 +9,11 @@ namespace RT.Scheme.Requirements
         {
             List<string> errors = new List<string>();
 
-            if (tile.Models == null)
-                errors.Add("'models' are required");
+            if (tile.Models == null || tile.Models.Length == 0)
+                errors.Add("'models' is required");
 
-            bool hasDefaultModel = tile.Default != null && tile.Default.Model != null;
-            bool allStatesHaveModel = tile.States != null && tile.States.All(s => s.Model != null);
-            if (!hasDefaultModel && !allStatesHaveModel)
-                errors.Add("specify model index in 'default' or 'states' is required");
+            if (tile.States == null || tile.States.Length == 0)
+                errors.Add("'states' is required");
 
             if (tile.Default != null)
                 errors.AddRange(StateRequirements.Check(tile.Default, tile));
