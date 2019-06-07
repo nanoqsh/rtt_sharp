@@ -13,32 +13,30 @@ namespace RT.Engine
 
         public void Update(float delta, Controller controller)
         {
-            float speed = 0.02f;
+            float speed = 0.8f;
             Vector3 move = new Vector3();
 
             if (controller.IsKeyPressed(controller.MoveForward))
-                move += player.Camera.Front * speed;
+                move += player.Camera.Front;
 
             if (controller.IsKeyPressed(controller.MoveBack))
-                move -= player.Camera.Front * speed;
+                move -= player.Camera.Front;
 
             if (controller.IsKeyPressed(controller.MoveLeft))
                 move -=
-                    Vector3.Normalize(Vector3.Cross(player.Camera.Front, Vector3.UnitY))
-                    * speed;
+                    Vector3.Normalize(Vector3.Cross(player.Camera.Front, Vector3.UnitY));
 
             if (controller.IsKeyPressed(controller.MoveRight))
                 move += 
-                    Vector3.Normalize(Vector3.Cross(player.Camera.Front, Vector3.UnitY))
-                    * speed;
+                    Vector3.Normalize(Vector3.Cross(player.Camera.Front, Vector3.UnitY));
 
             if (controller.IsKeyPressed(controller.MoveUp))
-                move += Vector3.UnitY * speed;
+                move += Vector3.UnitY;
 
             if (controller.IsKeyPressed(controller.MoveDown))
-                move -= Vector3.UnitY * speed;
+                move -= Vector3.UnitY;
 
-            player.Move(move);
+            player.Move(move * speed * delta);
             player.Camera.Rotate(controller.MouseDelta);
         }
     }

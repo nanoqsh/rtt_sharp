@@ -9,7 +9,7 @@ namespace RT.Engine
         private const float MIN_PITCH = -89.5f;
 
         private Vector2 rotation;
-        public Vector3 Position;
+        public Vector3 Position { get; private set; }
         public Vector3 Front { get; private set; }
 
         public Camera(Vector3 position)
@@ -27,16 +27,24 @@ namespace RT.Engine
             this.rotation = rotation;
         }
 
+        private Matrix4? view;
         public Matrix4 View =>
-            Matrix4.LookAt(
+            view ?? (Matrix4)(view = Matrix4.LookAt(
                 Position,
                 Position + Front,
                 Vector3.UnitY
-                );
+                ));
 
         public void Move(Vector3 delta)
         {
             Position += delta;
+            view = null;
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            Position = position;
+            view = null;
         }
 
         private static double Convert(double x) => Math.PI / 180 * x;
@@ -57,6 +65,8 @@ namespace RT.Engine
                 (float)Math.Sin(Convert(rotation.Y)),
                 (float)Math.Cos(Convert(rotation.X)) * (float)Math.Cos(Convert(rotation.Y))
                 ));
+
+            view = null;
         }
     }
 }

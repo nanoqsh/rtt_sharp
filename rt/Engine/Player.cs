@@ -18,7 +18,7 @@ namespace RT.Engine
         public void Move(Vector3 delta)
         {
             Position += delta;
-            Camera.Position = Position;
+            Camera.SetPosition(Position);
         }
     }
 }
