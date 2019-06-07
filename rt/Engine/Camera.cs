@@ -5,11 +5,11 @@ namespace RT.Engine
 {
     class Camera
     {
-        private const float MAX_PITCH = 90f; // 89.0f;
-        private const float MIN_PITCH = -90f; // -89.0f;
+        private const float MAX_PITCH = 89.5f;
+        private const float MIN_PITCH = -89.5f;
 
         private Vector2 rotation;
-        public Vector3 Position { get; private set; }
+        public Vector3 Position;
         public Vector3 Front { get; private set; }
 
         public Camera(Vector3 position)

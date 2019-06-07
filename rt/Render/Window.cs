@@ -10,11 +10,10 @@ namespace RT.Render
     class Window
     {
         private readonly GameWindow gameWindow;
-        private readonly MousePosition mousePosition;
+        private readonly Controller controller;
         private Frame? frame;
-        private readonly Camera camera;
 
-        public Window(int width, int height, string title, int pixelSize = 1)
+        public Window(int width, int height, string title)
         {
             gameWindow = new GameWindow(width, height, GraphicsMode.Default, title, GameWindowFlags.Default)
             {
@@ -26,17 +25,11 @@ namespace RT.Render
             gameWindow.UpdateFrame += OnUpdateFrame;
             gameWindow.RenderFrame += OnRenderFrame;
             gameWindow.KeyDown += OnKeyDown;
+            gameWindow.KeyUp += OnKeyUp;
             gameWindow.FocusedChanged += OnFocusedChanged;
             gameWindow.Resize += OnResize;
 
-            mousePosition = new MousePosition();
-
-            camera = new Camera(new Vector3(-3, 0, 0));
-        }
-
-        public void MakeFrame()
-        {
-            frame = new Frame(camera);
+            controller = new Controller();
         }
 
         public void Run(double updateRate)
@@ -47,18 +40,15 @@ namespace RT.Render
         private void OnLoad(object sender, EventArgs e)
         {
             CheckOpenGLError();
+            frame = new Frame();
         }
 
         private void OnUpdateFrame(object sender, FrameEventArgs e)
         {
             if (gameWindow.Focused)
-            {
-                // const float sensitivity = 0.3f;
-                // Vector2 delta = mousePosition.Update();
-                // camera.Rotate(delta * sensitivity);
-            }
+                controller.MouseUpdate();
 
-            frame!.Update(e.Time);
+            Core.Unit.Map.Update((float)e.Time, controller);
         }
 
         private void OnRenderFrame(object sender, FrameEventArgs e)
@@ -81,11 +71,18 @@ namespace RT.Render
                         : WindowState.Fullscreen;
                     break;
             }
+
+            controller.DownKey(e.Key);
+        }
+
+        private void OnKeyUp(object sender, KeyboardKeyEventArgs e)
+        {
+            controller.UpKey(e.Key);
         }
 
         private void OnFocusedChanged(object sender, EventArgs e)
         {
-            mousePosition.Update();
+            controller.MouseUpdate();
         }
 
         private void OnResize(object sender, EventArgs e)

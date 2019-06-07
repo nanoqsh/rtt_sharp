@@ -1,4 +1,5 @@
-﻿using RT.Engine;
+﻿using OpenTK;
+using RT.Engine;
 using RT.Render;
 
 namespace RT
@@ -20,15 +21,14 @@ namespace RT
         public Core()
         {
             Window = new Window(800, 600, "RTE");
-            Player = new Player("nekosora");
-            Map = new Map();
+            Player = new Player("nekosora", new Vector3(0, 0, -2));
+            Map = new Map(Player);
             Resource = new Resource();
             Atlas = new Atlas(16);
         }
 
         public void PreInit()
         {
-            Window.MakeFrame();
         }
 
         public void Init()
