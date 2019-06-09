@@ -35,21 +35,39 @@ namespace RT.Engine
                 Vector3.UnitY
                 ));
 
-        public bool Perspective = true;
-        public Matrix4 Projection(Rectangle size) =>
-            Perspective
-            ? Matrix4.CreatePerspectiveFieldOfView(
-                1.5f,
-                size.Width / (float)size.Height,
-                0.1f,
-                100.0f
-                )
-            : Matrix4.CreateOrthographic(
-                2f * size.Width / size.Height,
-                2f,
-                0.1f,
-                100.0f
-                );
+        private bool perspective = true;
+        public bool Perspective
+        {
+            get => perspective;
+            set
+            {
+                projection = null;
+                perspective = value;
+            }
+        }
+
+        private Matrix4? projection = null;
+        private Rectangle? oldSize = null;
+        public Matrix4 Projection(Rectangle size)
+        {
+            if (projection != null && oldSize == size)
+                return (Matrix4)projection;
+
+            oldSize = size;
+            return (Matrix4)(projection = perspective
+                ? Matrix4.CreatePerspectiveFieldOfView(
+                    1.5f,
+                    size.Width / (float)size.Height,
+                    0.1f,
+                    100.0f
+                    )
+                : Matrix4.CreateOrthographic(
+                    2f * size.Width / size.Height,
+                    2f,
+                    0.1f,
+                    100.0f
+                    ));
+        }
 
         public void Move(Vector3 delta)
         {
