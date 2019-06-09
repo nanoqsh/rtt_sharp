@@ -73,6 +73,7 @@ namespace RT.Render
             }
 
             controller.DownKey(e.Key);
+            Core.Unit.Map.DownKey(e.Key, controller);
         }
 
         private void OnKeyUp(object sender, KeyboardKeyEventArgs e)

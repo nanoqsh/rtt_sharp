@@ -36,12 +36,7 @@ namespace RT.Render
 
             shader.Enable();
 
-            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(
-                1.5f,
-                size.Width / (float)size.Height,
-                0.1f,
-                100.0f
-                );
+            Matrix4 projection = camera.Projection(size);
             GL.UniformMatrix4(shader.GetUniformIndex("projection"), false, ref projection);
 
             Matrix4 view = camera.View;

@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Input;
 
 namespace RT.Engine
 {
@@ -38,6 +39,12 @@ namespace RT.Engine
 
             player.Move(move * speed * delta);
             player.Camera.Rotate(controller.MouseDelta);
+        }
+
+        public void DownKey(Key key, Controller controller)
+        {
+            if (key == controller.TogglePerspective)
+                player.Camera.Perspective = !player.Camera.Perspective;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace RT.Engine
         public Key MoveRight = Key.D;
         public Key MoveUp = Key.Space;
         public Key MoveDown = Key.ShiftLeft;
+        public Key TogglePerspective = Key.F1;
 
         public float MouseSensitivity = 0.5f;
 
