@@ -41,6 +41,7 @@ namespace RT.Render
         {
             CheckOpenGLError();
             frame = new Frame();
+            Core.Unit.Map.Start();
         }
 
         private void OnUpdateFrame(object sender, FrameEventArgs e)

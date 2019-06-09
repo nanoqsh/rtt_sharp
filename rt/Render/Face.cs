@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using RT.Engine;
 using System;
+using Point = RT.Engine.Point;
 
 namespace RT.Render
 {
@@ -36,7 +37,7 @@ namespace RT.Render
                     );
         }
 
-        public Face(Face old, Vector2[] textureMap)
+        public Face(Face old, Vector2[] textureMap, Point point = default)
         {
             Layer = old.Layer;
             Contact = old.Contact;
@@ -46,7 +47,7 @@ namespace RT.Render
 
             for (int i = 0; i < Vertexes.Length; ++i)
                 Vertexes[i] = new Vertex(
-                    old.Vertexes[i].Position,
+                    point + old.Vertexes[i].Position,
                     textureMap[i],
                     old.Vertexes[i].Normal
                     );

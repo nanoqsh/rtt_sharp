@@ -53,20 +53,15 @@ namespace RT.Engine
             if (projection != null && oldSize == size)
                 return (Matrix4)projection;
 
+            float zNear = 0.1f;
+            float zFar = 100.0f;
+            float aspect = size.Width / (float)size.Height;
+
             oldSize = size;
             return (Matrix4)(projection = perspective
-                ? Matrix4.CreatePerspectiveFieldOfView(
-                    1.5f,
-                    size.Width / (float)size.Height,
-                    0.1f,
-                    100.0f
-                    )
-                : Matrix4.CreateOrthographic(
-                    2f * size.Width / size.Height,
-                    2f,
-                    0.1f,
-                    100.0f
-                    ));
+                ? Matrix4.CreatePerspectiveFieldOfView(1.5f, aspect, zNear, zFar)
+                : Matrix4.CreateOrthographic(2f * aspect, 2f, zNear, zFar)
+                );
         }
 
         public void Move(Vector3 delta)

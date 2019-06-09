@@ -14,5 +14,11 @@ namespace RT.Engine
             Layers = layers;
             Box = box;
         }
+
+        public static readonly State Empty = new State(
+            new Model(new Face[0], Side.None),
+            new uint[0],
+            new Box()
+            );
     }
 }

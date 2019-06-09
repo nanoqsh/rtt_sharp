@@ -9,7 +9,7 @@ namespace RT.Render
         private readonly ShaderProgram shader;
         private readonly Camera camera;
         private Rectangle size;
-        private readonly Mesh mesh;
+        private Mesh? mesh;
 
         public Frame()
         {
@@ -19,9 +19,6 @@ namespace RT.Render
                 );
 
             camera = Core.Unit.Player.Camera;
-
-            Tile brick = Core.Unit.Resource.LoadTile("debug.json");
-            mesh = new Mesh(brick.States[0], shader);
 
             GL.Enable(EnableCap.DepthTest);
         }
@@ -48,6 +45,9 @@ namespace RT.Render
             GL.Uniform1(shader.GetUniformIndex("layer0"), 0);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, Core.Unit.SpriteMap.Texture.Index);
+
+            if (mesh == null)
+                mesh = Core.Unit.Map.Chunk.GetMesh(shader);
 
             mesh.Draw();
             shader.Disable();

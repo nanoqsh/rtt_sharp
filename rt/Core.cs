@@ -29,6 +29,7 @@ namespace RT
 
         public void PreInit()
         {
+            Resource.LoadTile("debug.json");
         }
 
         public void Init()
