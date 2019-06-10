@@ -46,8 +46,7 @@ namespace RT.Render
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, Core.Unit.SpriteMap.Texture.Index);
 
-            if (mesh == null)
-                mesh = Core.Unit.Map.Chunk.GetMesh(shader);
+            mesh = Core.Unit.Map.Chunk.GetMesh(shader);
 
             mesh.Draw();
             shader.Disable();

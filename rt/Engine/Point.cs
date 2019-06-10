@@ -44,5 +44,12 @@ namespace RT.Engine
                 other.Y * point.Y,
                 other.Z * point.Z
                 );
+
+        public Point Up => new Point(X, Y + 1, Z);
+        public Point Down => new Point(X, Y - 1, Z);
+        public Point Left => new Point(X + 1, Y, Z);
+        public Point Right => new Point(X - 1, Y, Z);
+        public Point Front => new Point(X, Y, Z + 1);
+        public Point Back => new Point(X, Y, Z - 1);
     }
 }

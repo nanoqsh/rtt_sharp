@@ -1,7 +1,6 @@
 ﻿using OpenTK;
 using RT.Engine;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Point = RT.Engine.Point;
 

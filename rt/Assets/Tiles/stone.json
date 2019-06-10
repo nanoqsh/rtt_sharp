@@ -1,6 +1,6 @@
 {
   "models": [ "cube.json" ],
-  "textures": [ "cobblestone.png" ],
+  "textures": [ "stone.png" ],
   "states": [
     {
       "model": 0,

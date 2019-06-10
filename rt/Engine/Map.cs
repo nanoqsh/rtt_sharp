@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Input;
+using System;
 
 namespace RT.Engine
 {
@@ -16,7 +17,7 @@ namespace RT.Engine
 
         public void Start()
         {
-            Tile tile = Core.Unit.Resource.LoadTile("brick.json");
+            Tile tile = Core.Unit.Resource.LoadTile("stone.json");
             Chunk.SetTile(tile, new Point(0, 0, 0));
             Chunk.SetTile(tile, new Point(0, 1, 0));
             Chunk.SetTile(tile, new Point(0, 0, 1));
@@ -139,6 +140,18 @@ namespace RT.Engine
         {
             if (key == controller.TogglePerspective)
                 player.Camera.Perspective = !player.Camera.Perspective;
+
+            if (key == Key.Q)
+            {
+                Point point = new Point(
+                Math.Abs((int)(player.Position.X + .5f + player.Camera.Front.X * 2.0f) % 16),
+                Math.Abs((int)(player.Position.Y + .5f + player.Camera.Front.Y * 2.0f) % 16),
+                Math.Abs((int)(player.Position.Z + .5f + player.Camera.Front.Z * 2.0f) % 16)
+                );
+
+                Tile tile = Core.Unit.Resource.LoadTile("brick.json");
+                Chunk.SetTile(tile, point);
+            }
         }
     }
 }
