@@ -16,7 +16,7 @@ namespace RT.Engine
 
         public void Start()
         {
-            Tile tile = Core.Unit.Resource.LoadTile("debug.json");
+            Tile tile = Core.Unit.Resource.LoadTile("brick.json");
             Chunk.SetTile(tile, new Point(0, 0, 0));
             Chunk.SetTile(tile, new Point(0, 1, 0));
             Chunk.SetTile(tile, new Point(0, 0, 1));
@@ -90,11 +90,19 @@ namespace RT.Engine
             Chunk.SetTile(tile, new Point(15, 1, 13));
             Chunk.SetTile(tile, new Point(13, 1, 15));
             Chunk.SetTile(tile, new Point(13, 1, 13));
+
+            Chunk.SetTile(tile, new Point(1, 0, 14));
+            Chunk.SetTile(tile, new Point(1, 1, 14));
+            Chunk.SetTile(tile, new Point(1, 1, 15));
+            Chunk.SetTile(tile, new Point(1, 1, 13));
+            Chunk.SetTile(tile, new Point(0, 1, 14));
+            Chunk.SetTile(tile, new Point(2, 1, 14));
+            Chunk.SetTile(tile, new Point(1, 2, 14));
         }
 
         public void Update(float delta, Controller controller)
         {
-            float speed = 1f;
+            float speed = 1.4f;
             Vector3 move = new Vector3();
 
             if (controller.IsKeyPressed(controller.MoveForward))
