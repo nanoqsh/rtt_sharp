@@ -33,7 +33,7 @@ namespace RT.Engine
             switch (axis)
             {
                 case Axis.X:
-                    (Front, Back) = (Back, Front);
+                    (Right, Left) = (Left, Right);
                     transforms.Add(p => new Vector3(-p.X, p.Y, p.Z));
                     break;
 
@@ -43,7 +43,7 @@ namespace RT.Engine
                     break;
 
                 case Axis.Z:
-                    (Left, Right) = (Right, Left);
+                    (Back, Front) = (Front, Back);
                     transforms.Add(p => new Vector3(p.X, p.Y, -p.Z));
                     break;
 
@@ -59,7 +59,7 @@ namespace RT.Engine
             switch (axis)
             {
                 case Axis.X:
-                    (Right, Down, Left, Up) = (Up, Right, Down, Left);
+                    (Front, Down, Back, Up) = (Up, Front, Down, Back);
                     transforms.Add(p => new Vector3(p.X, -p.Z, p.Y));
                     break;
 
@@ -69,7 +69,7 @@ namespace RT.Engine
                     break;
 
                 case Axis.Z:
-                    (Front, Down, Back, Up) = (Up, Front, Down, Back);
+                    (Right, Down, Left, Up) = (Up, Right, Down, Left);
                     transforms.Add(p => new Vector3(-p.Y, p.X, p.Z));
                     break;
 

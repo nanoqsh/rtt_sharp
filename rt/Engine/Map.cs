@@ -16,7 +16,7 @@ namespace RT.Engine
 
         public void Start()
         {
-            Tile tile = Core.Unit.Resource.LoadTile("brick.json");
+            Tile tile = Core.Unit.Resource.LoadTile("debug.json");
             Chunk.SetTile(tile, new Point(0, 0, 0));
             Chunk.SetTile(tile, new Point(0, 1, 0));
             Chunk.SetTile(tile, new Point(0, 0, 1));
@@ -65,6 +65,31 @@ namespace RT.Engine
             Chunk.SetTile(tile, new Point(10, 4, 7));
 
             Chunk.SetTile(tile, new Point(15, 15, 15));
+
+            Chunk.SetTile(tile, new Point(15, 0, 0));
+
+            Chunk.SetTile(tile, new Point(15, 0, 15));
+            Chunk.SetTile(tile, new Point(15, 0, 14));
+            Chunk.SetTile(tile, new Point(15, 0, 13));
+            Chunk.SetTile(tile, new Point(14, 0, 15));
+            Chunk.SetTile(tile, new Point(13, 0, 15));
+            Chunk.SetTile(tile, new Point(13, 0, 14));
+            Chunk.SetTile(tile, new Point(14, 0, 13));
+            Chunk.SetTile(tile, new Point(13, 0, 13));
+
+            Chunk.SetTile(tile, new Point(15, 2, 15));
+            Chunk.SetTile(tile, new Point(15, 2, 14));
+            Chunk.SetTile(tile, new Point(15, 2, 13));
+            Chunk.SetTile(tile, new Point(14, 2, 15));
+            Chunk.SetTile(tile, new Point(13, 2, 15));
+            Chunk.SetTile(tile, new Point(13, 2, 14));
+            Chunk.SetTile(tile, new Point(14, 2, 13));
+            Chunk.SetTile(tile, new Point(13, 2, 13));
+
+            Chunk.SetTile(tile, new Point(15, 1, 15));
+            Chunk.SetTile(tile, new Point(15, 1, 13));
+            Chunk.SetTile(tile, new Point(13, 1, 15));
+            Chunk.SetTile(tile, new Point(13, 1, 13));
         }
 
         public void Update(float delta, Controller controller)

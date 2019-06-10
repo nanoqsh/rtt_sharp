@@ -53,7 +53,7 @@ namespace RT.Engine
             if (projection != null && oldSize == size)
                 return (Matrix4)projection;
 
-            float zNear = 0.1f;
+            float zNear = 0.05f;
             float zFar = 100.0f;
             float aspect = size.Width / (float)size.Height;
 

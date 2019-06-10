@@ -29,6 +29,62 @@ namespace RT.Engine
 
         private Face[] BuildMesh()
         {
+            IEnumerable<Face> Subtract(IEnumerable<Face> faces, Box box, Point pt)
+            {
+                foreach (Face face in faces)
+                {
+                    if (pt.X != 0 && face.Contact.Contain(box.Right))
+                    {
+                        Tile n = GetTile(new Point(pt.X - 1, pt.Y, pt.Z));
+
+                        if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Left))
+                            continue;
+                    }
+
+                    if (pt.X != SIZE - 1 && face.Contact.Contain(box.Left))
+                    {
+                        Tile n = GetTile(new Point(pt.X + 1, pt.Y, pt.Z));
+
+                        if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Right))
+                            continue;
+                    }
+
+                    if (pt.Y != 0 && face.Contact.Contain(box.Down))
+                    {
+                        Tile n = GetTile(new Point(pt.X, pt.Y - 1, pt.Z));
+
+                        if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Up))
+                            continue;
+                    }
+
+                    if (pt.Y != SIZE - 1 && face.Contact.Contain(box.Up))
+                    {
+                        Tile n = GetTile(new Point(pt.X, pt.Y + 1, pt.Z));
+
+                        if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Down))
+                            continue;
+                    }
+
+                    if (pt.Z != 0 && face.Contact.Contain(box.Back))
+                    {
+                        Tile n = GetTile(new Point(pt.X, pt.Y, pt.Z - 1));
+
+                        if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Front))
+                            continue;
+                    }
+
+                    if (pt.Z != SIZE - 1 && face.Contact.Contain(box.Front))
+                    {
+                        Tile n = GetTile(new Point(pt.X, pt.Y, pt.Z + 1));
+
+                        if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Back))
+                            continue;
+                    }
+
+                    yield return face;
+                }
+            }
+
             List<Face> faces = new List<Face>();
 
             for (int z = 0; z < SIZE; ++z)
@@ -40,61 +96,15 @@ namespace RT.Engine
                         if (t == Tile.Empty || t.States.Length == 0)
                             continue;
 
-                        State st = t.States[0];
-
-                        foreach (Face face in st.Model.Faces)
-                        {
-                            if (x != 0 && face.Contact.Contain(Side.Back))
-                            {
-                                Tile n = GetTile(new Point(x - 1, y, z));
-                                if (n.DefaultState.Model.FullSides.Contain(Side.Front))
-                                    continue;
-                            }
-
-                            if (x != SIZE - 1 && face.Contact.Contain(Side.Front))
-                            {
-                                Tile n = GetTile(new Point(x + 1, y, z));
-                                if (n.DefaultState.Model.FullSides.Contain(Side.Back))
-                                    continue;
-                            }
-
-                            if (y != 0 && face.Contact.Contain(Side.Down))
-                            {
-                                Tile n = GetTile(new Point(x, y - 1, z));
-                                if (n.DefaultState.Model.FullSides.Contain(Side.Up))
-                                    continue;
-                            }
-
-                            if (y != SIZE - 1 && face.Contact.Contain(Side.Up))
-                            {
-                                Tile n = GetTile(new Point(x, y + 1, z));
-                                if (n.DefaultState.Model.FullSides.Contain(Side.Down))
-                                    continue;
-                            }
-
-                            if (z != 0 && face.Contact.Contain(Side.Right))
-                            {
-                                Tile n = GetTile(new Point(x, y, z - 1));
-                                if (n.DefaultState.Model.FullSides.Contain(Side.Left))
-                                    continue;
-                            }
-
-                            if (z != SIZE - 1 && face.Contact.Contain(Side.Left))
-                            {
-                                Tile n = GetTile(new Point(x, y, z + 1));
-                                if (n.DefaultState.Model.FullSides.Contain(Side.Right))
-                                    continue;
-                            }
-
-                            faces.Add(new Face(
-                                face,
+                        faces.AddRange(Subtract(t.DefaultState.Model.Faces, t.DefaultState.Box, new Point(x, y, z))
+                            .Select(f => new Face(
+                                f,
                                 Core.Unit.SpriteMap.GetUV(
-                                    st.Layers[face.Layer],
-                                    face.Vertexes.Select(v => v.TextureMap).ToArray()
+                                    t.DefaultState.Layers[f.Layer],
+                                    f.Vertexes.Select(v => v.TextureMap).ToArray()
                                     ),
                                 new Point(x, y, z)
-                                ));
-                        }
+                                )));
                     }
 
             return faces.ToArray();

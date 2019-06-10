@@ -52,5 +52,21 @@ namespace RT.Render
                     old.Vertexes[i].Normal
                     );
         }
+
+        public Face(Face old, Box box)
+        {
+            Layer = old.Layer;
+            Contact = old.Contact;
+            Normal = old.Normal;
+
+            Vertexes = new Vertex[old.Vertexes.Length];
+
+            for (int i = 0; i < Vertexes.Length; ++i)
+                Vertexes[i] = new Vertex(
+                    box.TransformPoint(old.Vertexes[i].Position),
+                    old.Vertexes[i].TextureMap,
+                    old.Vertexes[i].Normal
+                    );
+        }
     }
 }

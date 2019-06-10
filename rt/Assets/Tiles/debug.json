@@ -1,10 +1,11 @@
 {
   "models": [ "cube.json" ],
-  "textures": [ "u.png", "d.png", "l.png", "r.png", "f.png", "b.png" ],
+  "textures": [ "u.png", "d.png", "f.png", "b.png", "l.png", "r.png" ],
   "states": [
     {
       "model": 0,
-      "layers": [ 0, 1, 2, 3, 4, 5 ]
+      "layers": [ 0, 1, 2, 3, 4, 5 ],
+      "transform": [ ]
     }
   ]
 }

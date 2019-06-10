@@ -23,6 +23,11 @@ namespace RT.Scheme.Converters
             if (model == null)
                 throw undefModel;
 
+            Render.Model tranformed = new Render.Model(
+                model.Faces.Select(f => new Render.Face(f, box)).ToArray(),
+                model.FullSides
+                );
+
             if (tile.Textures == null)
                 throw undefTexture;
 
@@ -35,7 +40,7 @@ namespace RT.Scheme.Converters
                 .Select(l => Core.Unit.Atlas.LoadSprite(tile.Textures[l]))
                 .ToArray();
 
-            return new Engine.State(model, loaded, box);
+            return new Engine.State(tranformed, loaded, box);
         }
 
         private static Box BoxFromTransform(string[] transform)
