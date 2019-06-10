@@ -1,7 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL4;
-using RT.Engine;
 using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace RT.Render
@@ -10,10 +8,6 @@ namespace RT.Render
     {
         public readonly int VAOIndex;
         private readonly int drawCount;
-
-        public Mesh(State state, ShaderProgram shader)
-            : this(ToFaces(state), shader)
-        { }
 
         public Mesh(Face[] faces, ShaderProgram shader)
         {
@@ -70,22 +64,6 @@ namespace RT.Render
             GL.BindVertexArray(VAOIndex);
             GL.DrawElements(BeginMode.Triangles, drawCount, DrawElementsType.UnsignedInt, 0);
             GL.BindVertexArray(0);
-        }
-
-        private static Face[] ToFaces(State state)
-        {
-            Face[] result = new Face[state.Model.Faces.Length];
-
-            for (int i = 0; i < result.Length; ++i)
-                result[i] = new Face(
-                    state.Model.Faces[i],
-                    Core.Unit.SpriteMap.GetUV(
-                        state.Layers[state.Model.Faces[i].Layer],
-                        state.Model.Faces[i].Vertexes.Select(v => v.TextureMap).ToArray()
-                        )
-                    );
-
-            return result;
         }
     }
 }

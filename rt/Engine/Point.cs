@@ -23,5 +23,26 @@ namespace RT.Engine
                 vector.Y + point.Y,
                 vector.Z + point.Z
                 );
+
+        public static Vector3 operator *(Point point, Vector3 vector) =>
+            new Vector3(
+                vector.X * point.X,
+                vector.Y * point.Y,
+                vector.Z * point.Z
+                );
+
+        public static Vector3 operator +(Point point, Point other) =>
+            new Vector3(
+                other.X + point.X,
+                other.Y + point.Y,
+                other.Z + point.Z
+                );
+
+        public static Vector3 operator *(Point point, Point other) =>
+            new Vector3(
+                other.X * point.X,
+                other.Y * point.Y,
+                other.Z * point.Z
+                );
     }
 }

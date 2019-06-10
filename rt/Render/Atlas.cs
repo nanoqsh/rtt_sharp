@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL4;
+using RT.Engine;
 using RT.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,20 @@ namespace RT.Render
                     spriteSize
                     );
 
-            return new SpriteMap(map, sizeInSprites);
+            SpriteMap spriteMap = new SpriteMap(map, sizeInSprites);
+            UpdateTextureMap(spriteMap);
+            return spriteMap;
+        }
+
+        private void UpdateTextureMap(SpriteMap spriteMap)
+        {
+            foreach (Tile tile in Core.Unit.Resource.LoadedTiles)
+                foreach (State state in tile.States)
+                    foreach (Face face in state.Model.Faces)
+                        face.UpdateTextureMap(spriteMap.GetUV(
+                            state.Layers[face.Layer],
+                            face.TextureMap
+                            ));
         }
     }
 }

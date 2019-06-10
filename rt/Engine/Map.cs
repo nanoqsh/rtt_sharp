@@ -98,6 +98,12 @@ namespace RT.Engine
             Chunk.SetTile(tile, new Point(0, 1, 14));
             Chunk.SetTile(tile, new Point(2, 1, 14));
             Chunk.SetTile(tile, new Point(1, 2, 14));
+
+            Chunk.SetTile(tile, new Point(1, 4, 13));
+            Chunk.SetTile(tile, new Point(0, 4, 13));
+            Chunk.SetTile(tile, new Point(2, 4, 13));
+            Chunk.SetTile(tile, new Point(1, 5, 13));
+            Chunk.SetTile(tile, new Point(1, 6, 13));
         }
 
         public void Update(float delta, Controller controller)

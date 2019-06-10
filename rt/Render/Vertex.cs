@@ -4,9 +4,9 @@ namespace RT.Render
 {
     struct Vertex
     {
-        public readonly Vector3 Position;
-        public readonly Vector2 TextureMap;
-        public readonly Vector3 Normal;
+        public Vector3 Position;
+        public Vector2 TextureMap;
+        public Vector3 Normal;
 
         public Vertex(Vector3 position, Vector2 textureMap, Vector3 normal)
         {

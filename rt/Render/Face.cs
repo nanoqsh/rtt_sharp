@@ -1,16 +1,18 @@
 ﻿using OpenTK;
 using RT.Engine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Point = RT.Engine.Point;
 
 namespace RT.Render
 {
     class Face
     {
-        public readonly Vertex[] Vertexes;
-        public readonly uint Layer;
-        public readonly Side Contact;
-        public readonly Vector3 Normal;
+        public Vertex[] Vertexes { get; private set; }
+        public uint Layer { get; private set; }
+        public Side Contact { get; private set; }
+        public Vector3 Normal { get; private set; }
 
         public Face(Vector3[] positions, Vector2[] textureMap, uint layer, Side contact, Vector3? normal = null)
         {
@@ -37,7 +39,16 @@ namespace RT.Render
                     );
         }
 
-        public Face(Face old, Vector2[] textureMap, Point point = default)
+        public void UpdateTextureMap(Vector2[] textureMap)
+        {
+            for (int i = 0; i < Vertexes.Length; ++i)
+                Vertexes[i].TextureMap = textureMap[i];
+        }
+
+        public Vector2[] TextureMap =>
+            Vertexes.Select(v => v.TextureMap).ToArray();
+
+        public Face(Face old, Point point)
         {
             Layer = old.Layer;
             Contact = old.Contact;
@@ -48,7 +59,7 @@ namespace RT.Render
             for (int i = 0; i < Vertexes.Length; ++i)
                 Vertexes[i] = new Vertex(
                     point + old.Vertexes[i].Position,
-                    textureMap[i],
+                    old.Vertexes[i].TextureMap,
                     old.Vertexes[i].Normal
                     );
         }

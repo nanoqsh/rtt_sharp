@@ -2,6 +2,7 @@
 using RT.Render;
 using RT.Scheme.Converters;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RT
 {
@@ -35,5 +36,7 @@ namespace RT
             tiles.Add(file, tile);
             return tile;
         }
+
+        public List<Tile> LoadedTiles => tiles.Values.ToList();
     }
 }

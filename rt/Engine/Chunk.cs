@@ -97,14 +97,7 @@ namespace RT.Engine
                             continue;
 
                         faces.AddRange(Subtract(t.DefaultState.Model.Faces, t.DefaultState.Box, new Point(x, y, z))
-                            .Select(f => new Face(
-                                f,
-                                Core.Unit.SpriteMap.GetUV(
-                                    t.DefaultState.Layers[f.Layer],
-                                    f.Vertexes.Select(v => v.TextureMap).ToArray()
-                                    ),
-                                new Point(x, y, z)
-                                )));
+                            .Select(f => new Face(f, new Point(x, y, z))));
                     }
 
             return faces.ToArray();
