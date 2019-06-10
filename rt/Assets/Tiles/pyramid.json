@@ -1,0 +1,11 @@
+{
+  "models": [ "pyramid.json" ],
+  "textures": [ "brick.png" ],
+  "states": [
+    {
+      "model": 0,
+      "layers": [ 0 ],
+      "transform": [ ]
+    }
+  ]
+}

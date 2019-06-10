@@ -30,6 +30,7 @@ namespace RT
         public void PreInit()
         {
             Resource.LoadTile("brick.json");
+            Resource.LoadTile("pyramid.json");
         }
 
         public void Init()

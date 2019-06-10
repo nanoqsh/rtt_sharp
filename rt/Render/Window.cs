@@ -29,6 +29,9 @@ namespace RT.Render
             gameWindow.FocusedChanged += OnFocusedChanged;
             gameWindow.Resize += OnResize;
 
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            
             controller = new Controller();
         }
 

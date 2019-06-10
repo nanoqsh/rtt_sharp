@@ -14,9 +14,10 @@ out vec3 fs_normal;
 
 void main()
 {
-	fs_position = position;
 	fs_texture_map = vec2(texture_map.x, 1.0 - texture_map.y);
 	fs_normal = normal;
 
-	gl_Position = projection * view * model * vec4(position, 1.0);
+	vec4 result = projection * view * model * vec4(position, 1.0);
+	fs_position = vec3(result);
+	gl_Position = result;
 }

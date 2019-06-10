@@ -149,7 +149,7 @@ namespace RT.Engine
                 Math.Abs((int)(player.Position.Z + .5f + player.Camera.Front.Z * 2.0f) % 16)
                 );
 
-                Tile tile = Core.Unit.Resource.LoadTile("brick.json");
+                Tile tile = Core.Unit.Resource.LoadTile("pyramid.json");
                 Chunk.SetTile(tile, point);
             }
         }

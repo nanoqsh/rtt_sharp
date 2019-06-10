@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using RT.Engine;
 
@@ -45,6 +46,9 @@ namespace RT.Render
             GL.Uniform1(shader.GetUniformIndex("layer0"), 0);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, Core.Unit.SpriteMap.Texture.Index);
+
+            Color4 fogColour = Color4.DeepSkyBlue;
+            GL.Uniform4(shader.GetUniformIndex("fog_colour"), fogColour);
 
             mesh = Core.Unit.Map.Chunk.GetMesh(shader);
 
