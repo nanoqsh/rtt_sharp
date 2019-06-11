@@ -45,6 +45,9 @@ namespace RT.Engine
             return false;
         }
 
+        public bool RemoveBlock(Point point) =>
+            SetBlock(point, Tile.Empty);
+
         public void UpdateMesh(Point point)
         {
             if (chunks.TryGetValue(point.ChunkPoint, out Chunk chunk))

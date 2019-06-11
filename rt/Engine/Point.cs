@@ -30,6 +30,13 @@ namespace RT.Engine
                 Z < 0 ? (Z / Chunk.SIZE) - 1 : Z / Chunk.SIZE
                 );
 
+        public Point WorldPoint(Point chunkPosition) =>
+            new Point(
+                chunkPosition.X * Chunk.SIZE + X,
+                chunkPosition.Y * Chunk.SIZE + Y,
+                chunkPosition.Z * Chunk.SIZE + Z
+                );
+
         public static readonly Point Zero = new Point(0, 0, 0);
 
         public static Vector3 operator +(Point point, Vector3 vector) =>

@@ -24,11 +24,7 @@ namespace RT.Engine
                (point.X < 0 || point.X >= SIZE)
             || (point.Y < 0 || point.Y >= SIZE)
             || (point.Z < 0 || point.Z >= SIZE)
-            ? world.GetBlock(new Point(
-                Position.X * SIZE + point.X,
-                Position.Y * SIZE + point.Y,
-                Position.Z * SIZE + point.Z
-                ))
+            ? world.GetBlock(point.WorldPoint(Position))
             : blocks[point.X, point.Y, point.Z] ?? Block.Empty;
 
         public void SetBlock(Point point, Tile tile, State? state = null)

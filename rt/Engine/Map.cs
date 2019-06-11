@@ -1,21 +1,18 @@
 ﻿using OpenTK;
 using OpenTK.Input;
-using System;
 
 namespace RT.Engine
 {
     class Map
     {
         private readonly Player player;
-        public readonly Chunk Chunk;
         public readonly World World;
 
         public Map(Player player)
         {
             this.player = player;
             World = new World();
-            Chunk = new Chunk(Point.Zero, World);
-            World.AddChunk(Point.Zero, Chunk);
+            World.AddChunk(new Point(0, 0, 0));
             World.AddChunk(new Point(-1, 0, 0));
             World.AddChunk(new Point(-1, 0, -1));
             World.AddChunk(new Point(0, 0, -1));
@@ -74,10 +71,7 @@ namespace RT.Engine
                 Point point = new Point(player.Position + player.Camera.Front);
 
                 Tile tile = Core.Unit.Resource.LoadTile("brick.json");
-                if (World.SetBlock(point, tile))
-                    Console.WriteLine("Set on " + point);
-                else
-                    Console.WriteLine("NOT Set on " + point);
+                World.SetBlock(point, tile);
             }
         }
     }
