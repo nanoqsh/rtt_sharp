@@ -10,7 +10,6 @@ namespace RT.Render
         private readonly ShaderProgram shader;
         private readonly Camera camera;
         private Rectangle size;
-        private Mesh? mesh;
 
         public Frame()
         {
@@ -43,9 +42,6 @@ namespace RT.Render
             Matrix4 view = camera.View;
             GL.UniformMatrix4(shader.GetUniformIndex("view"), false, ref view);
 
-            Matrix4 model = Matrix4.Identity;
-            GL.UniformMatrix4(shader.GetUniformIndex("model"), false, ref model);
-
             GL.Uniform1(shader.GetUniformIndex("layer0"), 0);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, Core.Unit.SpriteMap.Texture.Index);
@@ -53,9 +49,14 @@ namespace RT.Render
             Color4 fogColour = Color4.DeepSkyBlue;
             GL.Uniform4(shader.GetUniformIndex("fog_colour"), fogColour);
 
-            mesh = Core.Unit.Map.Chunk.GetMesh(shader);
+            foreach ((Mesh m, Vector3 v) in Core.Unit.Map.World.GetMeshes(shader))
+            {
+                Matrix4 model = Matrix4.CreateTranslation(v);
+                GL.UniformMatrix4(shader.GetUniformIndex("model"), false, ref model);
 
-            mesh.Draw();
+                m.Draw();
+            }
+
             shader.Disable();
         }
 

@@ -9,26 +9,42 @@ namespace RT.Engine
         public const int SIZE = 16;
 
         public readonly Point Position;
-        private readonly Tile?[,,] tiles;
+        private readonly World world;
+        private readonly Block?[,,] blocks;
         private Mesh? mesh = null;
 
-        public Chunk(Point position)
+        public Chunk(Point position, World world)
         {
             Position = position;
-            tiles = new Tile[SIZE, SIZE, SIZE];
+            this.world = world;
+            blocks = new Block?[SIZE, SIZE, SIZE];
         }
 
-        public Tile GetTile(Point point) =>
-            tiles[point.X, point.Y, point.Z] ?? Tile.Empty;
+        public Block GetBlock(Point point) =>
+               (point.X < 0 || point.X >= SIZE)
+            || (point.Y < 0 || point.Y >= SIZE)
+            || (point.Z < 0 || point.Z >= SIZE)
+            ? world.GetBlock(new Point(
+                Position.X * SIZE + point.X,
+                Position.Y * SIZE + point.Y,
+                Position.Z * SIZE + point.Z
+                ))
+            : blocks[point.X, point.Y, point.Z] ?? Block.Empty;
 
-        public void SetTile(Tile tile, Point point)
+        public void SetBlock(Point point, Tile tile, State? state = null)
         {
-            tiles[point.X, point.Y, point.Z] = tile;
+            blocks[point.X, point.Y, point.Z] = new Block(
+                tile,
+                state ?? tile.DetectState(this)
+                );
+
             mesh = null;
         }
 
         public Mesh GetMesh(ShaderProgram shader) =>
             mesh ?? (mesh = new Mesh(BuildMesh(), shader));
+
+        public void UpdateMesh() => mesh = null;
 
         private Face[] BuildMesh()
         {
@@ -38,67 +54,73 @@ namespace RT.Engine
                 for (int y = 0; y < SIZE; ++y)
                     for (int x = 0; x < SIZE; ++x)
                     {
-                        Tile t = tiles[x, y, z] ?? Tile.Empty;
+                        Block block = blocks[x, y, z] ?? Block.Empty;
 
-                        if (t == Tile.Empty || t.States.Length == 0)
+                        if (block.IsEmpty)
                             continue;
 
-                        faces.AddRange(Subtract(t.DefaultState.Model.Faces, t.DefaultState.Box, new Point(x, y, z))
-                            .Select(f => new Face(f, new Point(x, y, z))));
+                        Point point = new Point(x, y, z);
+
+                        faces.AddRange(
+                            Subtract(block.State, point)
+                                .Select(f => new Face(f, point))
+                            );
                     }
 
             return faces.ToArray();
         }
 
-        private IEnumerable<Face> Subtract(IEnumerable<Face> faces, Box box, Point point)
+        private IEnumerable<Face> Subtract(State state, Point point)
         {
-            foreach (Face face in faces)
+            foreach (Face face in state.Model.Faces)
             {
-                if (point.X != 0 && face.Contact.Contain(box.Right))
-                {
-                    Tile n = GetTile(point.Right);
+                Box box = state.Box;
 
-                    if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Left))
+                if (face.Contact.Contain(box.Right))
+                {
+                    Block block = GetBlock(point.Right);
+
+                    if (!block.IsEmpty && block.State.Contain(block.State.Box.Left))
                         continue;
                 }
 
-                if (point.X != SIZE - 1 && face.Contact.Contain(box.Left))
+                if (face.Contact.Contain(box.Left))
                 {
-                    Tile n = GetTile(point.Left);
+                    Block block = GetBlock(point.Left);
 
-                    if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Right))
+                    if (!block.IsEmpty && block.State.Contain(block.State.Box.Right))
                         continue;
                 }
 
-                if (point.Y != 0 && face.Contact.Contain(box.Down))
+                if (face.Contact.Contain(box.Down))
                 {
-                    Tile n = GetTile(point.Down);
+                    Block block = GetBlock(point.Down);
 
-                    if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Up))
+                    if (!block.IsEmpty && block.State.Contain(block.State.Box.Up))
                         continue;
                 }
 
-                if (point.Y != SIZE - 1 && face.Contact.Contain(box.Up))
+                if (face.Contact.Contain(box.Up))
                 {
-                    Tile n = GetTile(point.Up);
+                    Block block = GetBlock(point.Up);
 
-                    if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Down))
+                    if (!block.IsEmpty && block.State.Contain(block.State.Box.Down))
                         continue;
                 }
 
-                if (point.Z != 0 && face.Contact.Contain(box.Back))
+                if (face.Contact.Contain(box.Back))
                 {
-                    Tile n = GetTile(point.Back);
+                    Block block = GetBlock(point.Back);
 
-                    if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Front))
+                    if (!block.IsEmpty && block.State.Contain(block.State.Box.Front))
                         continue;
                 }
 
-                if (point.Z != SIZE - 1 && face.Contact.Contain(box.Front))
+                if (face.Contact.Contain(box.Front))
                 {
-                    Tile n = GetTile(point.Front);
+                    Block block = GetBlock(point.Front);
 
-                    if (n != Tile.Empty && n.DefaultState.Model.FullSides.Contain(n.DefaultState.Box.Back))
+                    if (!block.IsEmpty && block.State.Contain(block.State.Box.Back))
                         continue;
                 }
 

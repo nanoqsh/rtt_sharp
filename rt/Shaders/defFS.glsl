@@ -11,7 +11,7 @@ out vec4 color;
 
 void main()
 {
-	float fog_maxdist = 30.0;
+	float fog_maxdist = 60.0;
 	float fog_mindist = 0.1;
 
 	float dist = length(fs_position);

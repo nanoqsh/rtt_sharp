@@ -20,8 +20,8 @@ namespace RT
 
         public Core()
         {
-            Window = new Window(800, 600, "RTE");
-            Player = new Player("nekosora", new Vector3(0, 1, -2));
+            Window = new Window(900, 600, "RTE");
+            Player = new Player("nekosora", new Vector3(0, 2, -2));
             Map = new Map(Player);
             Resource = new Resource();
             Atlas = new Atlas(16);

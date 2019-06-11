@@ -8,103 +8,31 @@ namespace RT.Engine
     {
         private readonly Player player;
         public readonly Chunk Chunk;
+        public readonly World World;
 
         public Map(Player player)
         {
             this.player = player;
-            Chunk = new Chunk(Point.Zero);
+            World = new World();
+            Chunk = new Chunk(Point.Zero, World);
+            World.AddChunk(Point.Zero, Chunk);
+            World.AddChunk(new Point(-1, 0, 0));
+            World.AddChunk(new Point(-1, 0, -1));
+            World.AddChunk(new Point(0, 0, -1));
         }
 
         public void Start()
         {
             Tile tile = Core.Unit.Resource.LoadTile("stone.json");
-            Chunk.SetTile(tile, new Point(0, 0, 0));
-            Chunk.SetTile(tile, new Point(0, 1, 0));
-            Chunk.SetTile(tile, new Point(0, 0, 1));
-            Chunk.SetTile(tile, new Point(0, 1, 1));
-            Chunk.SetTile(tile, new Point(1, 0, 0));
-            Chunk.SetTile(tile, new Point(1, 0, 1));
-            Chunk.SetTile(tile, new Point(1, 1, 1));
 
-            Chunk.SetTile(tile, new Point(3, 3, 3));
-            Chunk.SetTile(tile, new Point(3, 4, 3));
-            Chunk.SetTile(tile, new Point(3, 5, 3));
-            Chunk.SetTile(tile, new Point(3, 3, 4));
-            Chunk.SetTile(tile, new Point(3, 3, 5));
-            Chunk.SetTile(tile, new Point(4, 3, 5));
-            Chunk.SetTile(tile, new Point(3, 4, 4));
-            Chunk.SetTile(tile, new Point(2, 5, 4));
-            Chunk.SetTile(tile, new Point(2, 4, 5));
-            Chunk.SetTile(tile, new Point(2, 5, 5));
-            Chunk.SetTile(tile, new Point(2, 6, 4));
-            Chunk.SetTile(tile, new Point(2, 7, 4));
+            for (int x = -15; x < 16; ++x)
+                for (int z = -15; z < 16; ++z)
+                    World.SetBlock(new Point(x, 0, z), tile);
 
-            Chunk.SetTile(tile, new Point(3, 1, 1));
-
-            Chunk.SetTile(tile, new Point(5, 1, 4));
-            Chunk.SetTile(tile, new Point(5, 2, 4));
-            Chunk.SetTile(tile, new Point(5, 2, 3));
-            Chunk.SetTile(tile, new Point(5, 2, 5));
-            Chunk.SetTile(tile, new Point(5, 3, 3));
-            Chunk.SetTile(tile, new Point(5, 3, 5));
-
-            Chunk.SetTile(tile, new Point(7, 4, 4));
-            Chunk.SetTile(tile, new Point(7, 4, 5));
-            Chunk.SetTile(tile, new Point(8, 4, 4));
-            Chunk.SetTile(tile, new Point(8, 4, 5));
-            Chunk.SetTile(tile, new Point(7, 4, 6));
-            Chunk.SetTile(tile, new Point(7, 4, 7));
-            Chunk.SetTile(tile, new Point(8, 4, 6));
-            Chunk.SetTile(tile, new Point(8, 4, 7));
-            Chunk.SetTile(tile, new Point(9, 4, 4));
-            Chunk.SetTile(tile, new Point(9, 4, 5));
-            Chunk.SetTile(tile, new Point(10, 4, 4));
-            Chunk.SetTile(tile, new Point(10, 4, 5));
-            Chunk.SetTile(tile, new Point(9, 4, 6));
-            Chunk.SetTile(tile, new Point(9, 4, 7));
-            Chunk.SetTile(tile, new Point(10, 4, 6));
-            Chunk.SetTile(tile, new Point(10, 4, 7));
-
-            Chunk.SetTile(tile, new Point(15, 15, 15));
-
-            Chunk.SetTile(tile, new Point(15, 0, 0));
-
-            Chunk.SetTile(tile, new Point(15, 0, 15));
-            Chunk.SetTile(tile, new Point(15, 0, 14));
-            Chunk.SetTile(tile, new Point(15, 0, 13));
-            Chunk.SetTile(tile, new Point(14, 0, 15));
-            Chunk.SetTile(tile, new Point(13, 0, 15));
-            Chunk.SetTile(tile, new Point(13, 0, 14));
-            Chunk.SetTile(tile, new Point(14, 0, 13));
-            Chunk.SetTile(tile, new Point(13, 0, 13));
-
-            Chunk.SetTile(tile, new Point(15, 2, 15));
-            Chunk.SetTile(tile, new Point(15, 2, 14));
-            Chunk.SetTile(tile, new Point(15, 2, 13));
-            Chunk.SetTile(tile, new Point(14, 2, 15));
-            Chunk.SetTile(tile, new Point(13, 2, 15));
-            Chunk.SetTile(tile, new Point(13, 2, 14));
-            Chunk.SetTile(tile, new Point(14, 2, 13));
-            Chunk.SetTile(tile, new Point(13, 2, 13));
-
-            Chunk.SetTile(tile, new Point(15, 1, 15));
-            Chunk.SetTile(tile, new Point(15, 1, 13));
-            Chunk.SetTile(tile, new Point(13, 1, 15));
-            Chunk.SetTile(tile, new Point(13, 1, 13));
-
-            Chunk.SetTile(tile, new Point(1, 0, 14));
-            Chunk.SetTile(tile, new Point(1, 1, 14));
-            Chunk.SetTile(tile, new Point(1, 1, 15));
-            Chunk.SetTile(tile, new Point(1, 1, 13));
-            Chunk.SetTile(tile, new Point(0, 1, 14));
-            Chunk.SetTile(tile, new Point(2, 1, 14));
-            Chunk.SetTile(tile, new Point(1, 2, 14));
-
-            Chunk.SetTile(tile, new Point(1, 4, 13));
-            Chunk.SetTile(tile, new Point(0, 4, 13));
-            Chunk.SetTile(tile, new Point(2, 4, 13));
-            Chunk.SetTile(tile, new Point(1, 5, 13));
-            Chunk.SetTile(tile, new Point(1, 6, 13));
+            World.SetBlock(new Point(15, 15, 15), tile);
+            World.SetBlock(new Point(-15, 15, 15), tile);
+            World.SetBlock(new Point(15, 15, -15), tile);
+            World.SetBlock(new Point(-15, 15, -15), tile);
         }
 
         public void Update(float delta, Controller controller)
@@ -143,14 +71,13 @@ namespace RT.Engine
 
             if (key == Key.Q)
             {
-                Point point = new Point(
-                Math.Abs((int)(player.Position.X + .5f + player.Camera.Front.X * 2.0f) % 16),
-                Math.Abs((int)(player.Position.Y + .5f + player.Camera.Front.Y * 2.0f) % 16),
-                Math.Abs((int)(player.Position.Z + .5f + player.Camera.Front.Z * 2.0f) % 16)
-                );
+                Point point = new Point(player.Position + player.Camera.Front);
 
-                Tile tile = Core.Unit.Resource.LoadTile("pyramid.json");
-                Chunk.SetTile(tile, point);
+                Tile tile = Core.Unit.Resource.LoadTile("brick.json");
+                if (World.SetBlock(point, tile))
+                    Console.WriteLine("Set on " + point);
+                else
+                    Console.WriteLine("NOT Set on " + point);
             }
         }
     }

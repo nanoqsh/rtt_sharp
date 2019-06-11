@@ -6,7 +6,7 @@ namespace RT.Scheme.Converters
 {
     class StateConverter
     {
-        public static Engine.State Convert(State state, Tile tile)
+        public static Engine.State Convert(State state, Tile tile, uint id)
         {
             Exception undefModel = new Exception("Undefined model!");
             Exception undefTexture = new Exception("Undefined texture!");
@@ -40,7 +40,7 @@ namespace RT.Scheme.Converters
                 .Select(l => Core.Unit.Atlas.LoadSprite(tile.Textures[l]))
                 .ToArray();
 
-            return new Engine.State(tranformed, loaded, box);
+            return new Engine.State(tranformed, id, loaded, box);
         }
 
         private static Box BoxFromTransform(string[] transform)

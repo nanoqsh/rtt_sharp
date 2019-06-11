@@ -16,6 +16,8 @@ namespace RT.Engine
             ID = id;
         }
 
+        public virtual State DetectState(Chunk chunk) => DefaultState;
+
         public State DefaultState => States[0];
 
         public static readonly Tile Empty = new Tile(new State[] { State.Empty }, 0);

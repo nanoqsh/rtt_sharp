@@ -7,10 +7,12 @@ namespace RT.Scheme.Converters
     {
         public static Engine.Tile Convert(Tile tile, uint id)
         {
+            uint stateID = 0;
+
             Engine.State ConvertState(State state) =>
                 StateConverter.Convert(tile.Default == null
                     ? state
-                    : State.Inherit(state, tile.Default), tile);
+                    : State.Inherit(state, tile.Default), tile, stateID++);
 
             if (tile.Default == null && tile.States == null)
                 throw new Exception("No any state found!");

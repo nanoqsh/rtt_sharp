@@ -56,9 +56,7 @@ namespace RT
         private static Tile LoadTileParent(string file, List<string> loaded)
         {
             if (loaded.Contains(file))
-                throw new LoaderException(file, new List<string> {
-                    $"Recursive inheritance: {string.Join(" -> ", loaded)} -> {file}"
-                });
+                throw new RecursiveInheritanceException(file, loaded);
 
             Tile tile = JsonConvert.DeserializeObject<Tile>(
                 LoadText(Ref.Tiles + file),
