@@ -5,7 +5,7 @@ namespace RT.Scheme.Converters
 {
     static class TileConverter
     {
-        public static Engine.Tile Convert(Tile tile)
+        public static Engine.Tile Convert(Tile tile, uint id)
         {
             Engine.State ConvertState(State state) =>
                 StateConverter.Convert(tile.Default == null
@@ -19,7 +19,7 @@ namespace RT.Scheme.Converters
                 ? new Engine.State[0]
                 : tile.States.Select(ConvertState).ToArray();
 
-            return new Engine.Tile(states);
+            return new Engine.Tile(states, id);
         }
     }
 }

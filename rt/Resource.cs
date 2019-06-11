@@ -10,11 +10,16 @@ namespace RT
     {
         private readonly Dictionary<string, Model> models;
         private readonly Dictionary<string, Tile> tiles;
+        private readonly List<Tile> tilesByID;
 
         public Resource()
         {
             models = new Dictionary<string, Model>();
             tiles = new Dictionary<string, Tile>();
+            tilesByID = new List<Tile>()
+            {
+                Tile.Empty
+            };
         }
 
         public Model LoadModel(string file)
@@ -32,11 +37,16 @@ namespace RT
             if (tiles.TryGetValue(file, out Tile result))
                 return result;
 
-            Tile tile = TileConverter.Convert(Loader.LoadTile(file));
+            uint id = (uint)tilesByID.Count();
+            Tile tile = TileConverter.Convert(Loader.LoadTile(file), id);
             tiles.Add(file, tile);
+            tilesByID.Add(tile);
             return tile;
         }
 
         public List<Tile> LoadedTiles => tiles.Values.ToList();
+
+        public Tile GetTile(uint id) =>
+            tilesByID.Count() > ((int)id) ? tilesByID[(int)id] : Tile.Empty;
     }
 }

@@ -1,9 +1,4 @@
-﻿using OpenTK;
-using RT.Engine;
-using RT.Render;
-using System;
-
-namespace RT
+﻿namespace RT
 {
     class Program
     {

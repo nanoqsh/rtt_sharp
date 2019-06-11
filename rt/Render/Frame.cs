@@ -22,6 +22,9 @@ namespace RT.Render
             camera = Core.Unit.Player.Camera;
 
             GL.Enable(EnableCap.DepthTest);
+
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
         public void Draw()

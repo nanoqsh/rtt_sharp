@@ -1,5 +1,4 @@
-﻿using OpenTK;
-using RT.Render;
+﻿using RT.Render;
 
 namespace RT.Engine
 {
