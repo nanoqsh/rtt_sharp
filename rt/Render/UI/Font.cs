@@ -44,12 +44,12 @@ namespace RT.Render.UI
 
             GL.BufferData(
                 BufferTarget.ArrayBuffer,
-                Marshal.SizeOf(typeof(FontVertex)) * 4,
+                Marshal.SizeOf(typeof(Vertex4)) * 4,
                 IntPtr.Zero,
                 BufferUsageHint.DynamicDraw
                 );
 
-            Attribute attr = new Attribute(shader.GetAttributeIndex("vertex"), 4, 4, 0);
+            Attribute attr = Vertex4.GetAttribute(shader, "vertex");
 
             GL.EnableVertexAttribArray(attr.Index);
             GL.VertexAttribPointer(
@@ -109,16 +109,16 @@ namespace RT.Render.UI
                 int width = CharWidth * Scale;
                 int height = CharHeight * Scale;
 
-                FontVertex[] vertices = new FontVertex[]
+                Vertex4[] vertices = new Vertex4[]
                 {
-                    new FontVertex(x + i * width, y, u, v + sizeV),
-                    new FontVertex(x + i * width, y + height, u, v),
-                    new FontVertex(x + i * width + width, y, u + sizeU, v + sizeV),
-                    new FontVertex(x + i * width + width, y + height, u + sizeU, v)
+                    new Vertex4(x + i * width, y, u, v + sizeV),
+                    new Vertex4(x + i * width, y + height, u, v),
+                    new Vertex4(x + i * width + width, y, u + sizeU, v + sizeV),
+                    new Vertex4(x + i * width + width, y + height, u + sizeU, v)
                 };
 
                 GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-                GL.BufferSubData(BufferTarget.ArrayBuffer, IntPtr.Zero, Marshal.SizeOf(typeof(FontVertex)) * 4, vertices);
+                GL.BufferSubData(BufferTarget.ArrayBuffer, IntPtr.Zero, Marshal.SizeOf(typeof(Vertex4)) * 4, vertices);
 
                 GL.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);
             }

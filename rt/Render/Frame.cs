@@ -13,6 +13,7 @@ namespace RT.Render
         public Rectangle Size { get; private set; }
         public Matrix4 Ortho { get; private set; }
         private readonly Font font;
+        private readonly Postprocessor post;
 
         public Frame()
         {
@@ -27,10 +28,13 @@ namespace RT.Render
             GL.Enable(EnableCap.Blend);
 
             font = new Font(this);
+            post = new Postprocessor();
         }
 
         public void Draw()
         {
+            post.Bind();
+
             GL.Enable(EnableCap.DepthTest);
 
             GL.ClearColor(Color.DarkCyan);
@@ -66,17 +70,19 @@ namespace RT.Render
 
             GL.Disable(EnableCap.DepthTest);
 
-            int step = 16;
-            font.Scale = 2;
+            post.Draw();
+
+            int step = 32;
+            font.Scale = 4;
 
             font.Inverted = true;
-            font.Draw(" `1234567890-=qwertyuiop[]", -200, 0);
+            font.Draw(" `1234567890-=qwertyuiop[]", -400, 0);
             font.Inverted = false;
-            font.Draw("asdfghjkl;'\\zxcvbnm,./", -200, -step);
+            font.Draw("asdfghjkl;'\\zxcvbnm,./", -400, -step - font.Scale);
             font.Inverted = true;
-            font.Draw("~!@#$%^&*()_+QWERTYUIOP{}", -200, -step * 2);
+            font.Draw("~!@#$%^&*()_+QWERTYUIOP{}", -400, -step * 2 - font.Scale * 2);
             font.Inverted = false;
-            font.Draw("ASDFGHJKL:\"|ZXCVBNM<>?", -200, -step * 3);
+            font.Draw("ASDFGHJKL:\"|ZXCVBNM<>?", -400, -step * 3 - font.Scale * 3);
         }
 
         public void Resize(Rectangle size)
@@ -84,6 +90,8 @@ namespace RT.Render
             GL.Viewport(size);
             Size = size;
             Ortho = Matrix4.CreateOrthographic(size.Width, size.Height, -100, 100);
+
+            post.Resize(size);
         }
     }
 }
