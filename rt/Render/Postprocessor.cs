@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
 namespace RT.Render
@@ -10,6 +9,8 @@ namespace RT.Render
         private readonly ShaderProgram shader;
         private readonly int quadVAO;
         private FrameBuffer? frameBuffer;
+        private int width;
+        private int height;
 
         public Postprocessor()
         {
@@ -56,31 +57,31 @@ namespace RT.Render
             frameBuffer?.Dispose();
         }
 
-        public void Resize(Rectangle client)
+        public void Resize(int width, int height, int pixelSize)
         {
             frameBuffer?.Dispose();
+            frameBuffer = new FrameBuffer(width / pixelSize, height / pixelSize);
 
-            int pixelSize = 1;
-
-            frameBuffer = new FrameBuffer(
-                client.Size.Width / pixelSize,
-                client.Size.Height / pixelSize
-                );
+            this.width = width;
+            this.height = height;
         }
 
         public void Bind()
         {
-            frameBuffer?.Bind();
+            GL.Viewport(0, 0, frameBuffer!.Width, frameBuffer!.Heigth);
+            frameBuffer!.Bind();
         }
 
         public void Unbind()
         {
-            frameBuffer?.Unbind();
+            frameBuffer!.Unbind();
         }
 
         public void Draw()
         {
-            frameBuffer?.Unbind();
+            frameBuffer!.Unbind();
+
+            GL.Viewport(0, 0, width, height);
 
             shader.Enable();
 

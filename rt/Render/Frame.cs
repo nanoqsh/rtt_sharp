@@ -14,6 +14,7 @@ namespace RT.Render
         public Matrix4 Ortho { get; private set; }
         private readonly Font font;
         private readonly Postprocessor post;
+        private readonly int pixelSize = 1;
 
         public Frame()
         {
@@ -91,7 +92,7 @@ namespace RT.Render
             Size = size;
             Ortho = Matrix4.CreateOrthographic(size.Width, size.Height, -100, 100);
 
-            post.Resize(size);
+            post.Resize(size.Width, size.Height, pixelSize);
         }
     }
 }

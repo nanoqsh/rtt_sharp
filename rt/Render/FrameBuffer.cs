@@ -7,11 +7,16 @@ namespace RT.Render
     {
         public readonly int Index;
         public readonly Texture Frame;
+        public readonly int Width;
+        public readonly int Heigth;
 
         private readonly int renderBuffer;
 
         public FrameBuffer(int width, int height)
         {
+            Width = width;
+            Heigth = height;
+
             Index = GL.GenFramebuffer();
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, Index);
 
