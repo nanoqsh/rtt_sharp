@@ -18,6 +18,7 @@ namespace RT.Render.UI
         private readonly int vao;
         private readonly int vbo;
         public int Scale = 1;
+        public bool Inverted = false;
 
         public Font(Frame frame)
         {
@@ -78,11 +79,14 @@ namespace RT.Render.UI
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, texture.Index);
 
+            int inverted = Inverted ? 1 : 0;
+            GL.Uniform1(shader.GetUniformIndex("inverted"), inverted);
+
             GL.BindVertexArray(vao);
 
             Color4 shadow = new Color4(0, 0, 0, 100);
             GL.Uniform4(shader.GetUniformIndex("font_color"), shadow);
-            DrawText(text, x + 1, y - 1);
+            DrawText(text, x + Scale, y - Scale);
 
             GL.Uniform4(shader.GetUniformIndex("font_color"), color);
             DrawText(text, x, y);

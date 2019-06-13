@@ -66,10 +66,17 @@ namespace RT.Render
 
             GL.Disable(EnableCap.DepthTest);
 
-            font.Draw("`1234567890-=qwertyuiop[]", 0, 0);
-            font.Draw("asdfghjkl;'\\zxcvbnm,./", 0, -8, Color4.DarkKhaki);
-            font.Draw("~!@#$%^&*()_+QWERTYUIOP{}", 0, -16, Color4.PaleVioletRed);
-            font.Draw("ASDFGHJKL:\"|ZXCVBNM<>?", 0, -24, Color4.PowderBlue);
+            int step = 16;
+            font.Scale = 2;
+
+            font.Inverted = true;
+            font.Draw(" `1234567890-=qwertyuiop[]", -200, 0);
+            font.Inverted = false;
+            font.Draw("asdfghjkl;'\\zxcvbnm,./", -200, -step);
+            font.Inverted = true;
+            font.Draw("~!@#$%^&*()_+QWERTYUIOP{}", -200, -step * 2);
+            font.Inverted = false;
+            font.Draw("ASDFGHJKL:\"|ZXCVBNM<>?", -200, -step * 3);
         }
 
         public void Resize(Rectangle size)
