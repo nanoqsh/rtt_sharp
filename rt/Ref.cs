@@ -10,5 +10,6 @@ namespace RT
         public static readonly string Models = Assets + "Models/";
         public static readonly string Tiles = Assets + "Tiles/";
         public static readonly string Textures = Assets + "Textures/";
+        public static readonly string Font = Assets + "Font/";
     }
 }

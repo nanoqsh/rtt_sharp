@@ -15,7 +15,7 @@ namespace RT.Render
 
         public Window(int width, int height, string title)
         {
-            gameWindow = new GameWindow(width, height, GraphicsMode.Default, title, GameWindowFlags.Default)
+            gameWindow = new GameWindow(width, height, GraphicsMode.Default, title, GameWindowFlags.FixedWindow)
             {
                 VSync = VSyncMode.On,
                 CursorVisible = false

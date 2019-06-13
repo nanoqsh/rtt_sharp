@@ -114,13 +114,11 @@ namespace RT.Engine
 
         public override string ToString() => $"({X}, {Y}, {Z})";
 
-        public override bool Equals(object obj)
-        {
-            if (obj is Point p)
-                return X == p.X && Y == p.Y && Z == p.Z;
-
-            return false;
-        }
+        public override bool Equals(object obj) =>
+            obj is Point p
+                && X == p.X
+                && Y == p.Y
+                && Z == p.Z;
 
         public override int GetHashCode()
         {

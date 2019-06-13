@@ -79,5 +79,15 @@ namespace RT
 
             return new Bitmap(path);
         }
+
+        public static Bitmap LoadFontImage(string file)
+        {
+            string path = Ref.Font + file;
+
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"File {path} not exists!");
+
+            return new Bitmap(path);
+        }
     }
 }
