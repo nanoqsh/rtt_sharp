@@ -87,7 +87,10 @@ namespace RT.Render
 
             GL.Uniform1(shader.GetUniformIndex("frame"), 0);
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, frameBuffer!.Frame.Index);
+            GL.BindTexture(TextureTarget.Texture2DMultisample, frameBuffer!.FrameIndex);
+
+            GL.Uniform1(shader.GetUniformIndex("frame_width"), width);
+            GL.Uniform1(shader.GetUniformIndex("frame_height"), height);
 
             GL.BindVertexArray(quadVAO);
             GL.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);

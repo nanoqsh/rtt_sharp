@@ -29,6 +29,9 @@ namespace RT.Render
             gameWindow.FocusedChanged += OnFocusedChanged;
             gameWindow.Resize += OnResize;
 
+            Console.WriteLine(GL.GetString(StringName.Vendor));
+            Console.WriteLine(GL.GetString(StringName.Renderer));
+
             controller = new Controller();
         }
 

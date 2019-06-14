@@ -6,7 +6,7 @@ namespace RT.Render
     class FrameBuffer : IDisposable
     {
         public readonly int Index;
-        public readonly Texture Frame;
+        public readonly int FrameIndex;
         public readonly int Width;
         public readonly int Heigth;
 
@@ -17,57 +17,71 @@ namespace RT.Render
             Width = width;
             Heigth = height;
 
-            Index = GL.GenFramebuffer();
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, Index);
+            FrameIndex = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2DMultisample, FrameIndex);
 
-            Frame = new Texture(width, height);
+            GL.TexImage2DMultisample(
+                TextureTargetMultisample.Texture2DMultisample,
+                4,
+                PixelInternalFormat.Rgba,
+                width,
+                height,
+                true
+                );
+
+            GL.BindTexture(TextureTarget.Texture2DMultisample, 0);
+
+            Index = GL.GenFramebuffer();
+            GL.BindFramebuffer(FramebufferTarget.FramebufferExt, Index);
+
             GL.FramebufferTexture2D(
-                FramebufferTarget.Framebuffer,
-                FramebufferAttachment.ColorAttachment0,
-                TextureTarget.Texture2D,
-                Frame.Index,
+                FramebufferTarget.FramebufferExt,
+                FramebufferAttachment.ColorAttachment0Ext,
+                TextureTarget.Texture2DMultisample,
+                FrameIndex,
                 0
                 );
 
             renderBuffer = GL.GenRenderbuffer();
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, renderBuffer);
-            GL.RenderbufferStorage(
-                RenderbufferTarget.Renderbuffer,
-                RenderbufferStorage.DepthComponent24,
+            GL.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, renderBuffer);
+            GL.RenderbufferStorageMultisample(
+                RenderbufferTarget.RenderbufferExt,
+                4,
+                RenderbufferStorage.Depth24Stencil8,
                 width,
                 height
                 );
 
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
+            GL.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, 0);
             GL.FramebufferRenderbuffer(
-                FramebufferTarget.Framebuffer,
-                FramebufferAttachment.DepthAttachment,
-                RenderbufferTarget.Renderbuffer,
+                FramebufferTarget.FramebufferExt,
+                FramebufferAttachment.DepthAttachmentExt,
+                RenderbufferTarget.RenderbufferExt,
                 renderBuffer
                 );
 
-            FramebufferErrorCode status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
+            FramebufferErrorCode status = GL.CheckFramebufferStatus(FramebufferTarget.FramebufferExt);
             if (status != FramebufferErrorCode.FramebufferComplete)
                 throw new Exception($"Error: {status}");
 
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            GL.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
         }
 
         public void Dispose()
         {
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            GL.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
             GL.DeleteRenderbuffer(renderBuffer);
             GL.DeleteFramebuffer(Index);
         }
 
         public void Bind()
         {
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, Index);
+            GL.BindFramebuffer(FramebufferTarget.FramebufferExt, Index);
         }
 
         public void Unbind()
         {
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            GL.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
         }
     }
 }
