@@ -107,6 +107,9 @@
     <None Update="Shaders\post_fs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Shaders\post_ms_fs.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Shaders\post_vs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

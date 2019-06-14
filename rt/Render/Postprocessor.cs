@@ -11,6 +11,7 @@ namespace RT.Render
         private FrameBuffer? frameBuffer;
         private int width;
         private int height;
+        private int pixelSize;
 
         public Postprocessor()
         {
@@ -64,6 +65,7 @@ namespace RT.Render
 
             this.width = width;
             this.height = height;
+            this.pixelSize = pixelSize;
         }
 
         public void Bind()
@@ -85,12 +87,11 @@ namespace RT.Render
 
             shader.Enable();
 
-            GL.Uniform1(shader.GetUniformIndex("frame"), 0);
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2DMultisample, frameBuffer!.FrameIndex);
+            frameBuffer!.BindFrameTexture(shader.GetUniformIndex("frame"));
 
-            GL.Uniform1(shader.GetUniformIndex("frame_width"), width);
-            GL.Uniform1(shader.GetUniformIndex("frame_height"), height);
+            // samples != 0
+            // GL.Uniform1(shader.GetUniformIndex("frame_width"), width / pixelSize);
+            // GL.Uniform1(shader.GetUniformIndex("frame_height"), height / pixelSize);
 
             GL.BindVertexArray(quadVAO);
             GL.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);
