@@ -75,9 +75,10 @@ namespace RT.Render
 
             post.Draw();
 
+            /*
             int step = 32;
             font.Scale = 4;
-
+            
             font.Inverted = true;
             font.Draw(" `1234567890-=qwertyuiop[]", -400, 0);
             font.Inverted = false;
@@ -86,6 +87,7 @@ namespace RT.Render
             font.Draw("~!@#$%^&*()_+QWERTYUIOP{}", -400, -step * 2 - font.Scale * 2);
             font.Inverted = false;
             font.Draw("ASDFGHJKL:\"|ZXCVBNM<>?", -400, -step * 3 - font.Scale * 3);
+            */
         }
 
         public void Resize(Rectangle size)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL4;
+using RT.Render.FrameBuffers;
 
 namespace RT.Render
 {
@@ -8,7 +9,7 @@ namespace RT.Render
     {
         private readonly ShaderProgram shader;
         private readonly int quadVAO;
-        private FrameBuffer? frameBuffer;
+        private IFrameBuffer? frameBuffer;
         private int width;
         private int height;
         private int pixelSize;
@@ -61,7 +62,20 @@ namespace RT.Render
         public void Resize(int width, int height, int pixelSize)
         {
             frameBuffer?.Dispose();
-            frameBuffer = new FrameBuffer(width / pixelSize, height / pixelSize);
+
+            int samples = 0;
+
+            if (samples == 0)
+                frameBuffer = new FrameBuffer(
+                    width / pixelSize,
+                    height / pixelSize
+                    );
+            else
+                frameBuffer = new FrameBufferMultisample(
+                    width / pixelSize,
+                    height / pixelSize,
+                    samples
+                    );
 
             this.width = width;
             this.height = height;
@@ -70,13 +84,8 @@ namespace RT.Render
 
         public void Bind()
         {
-            GL.Viewport(0, 0, frameBuffer!.Width, frameBuffer!.Heigth);
+            GL.Viewport(0, 0, width / pixelSize, height / pixelSize);
             frameBuffer!.Bind();
-        }
-
-        public void Unbind()
-        {
-            frameBuffer!.Unbind();
         }
 
         public void Draw()
