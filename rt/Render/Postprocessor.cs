@@ -63,7 +63,7 @@ namespace RT.Render
         {
             frameBuffer?.Dispose();
 
-            int samples = 0;
+            int samples = 4;
 
             if (samples == 0)
                 frameBuffer = new FrameBuffer(
@@ -97,10 +97,6 @@ namespace RT.Render
             shader.Enable();
 
             frameBuffer!.BindFrameTexture(shader.GetUniformIndex("frame"));
-
-            // samples != 0
-            // GL.Uniform1(shader.GetUniformIndex("frame_width"), width / pixelSize);
-            // GL.Uniform1(shader.GetUniformIndex("frame_height"), height / pixelSize);
 
             GL.BindVertexArray(quadVAO);
             GL.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);

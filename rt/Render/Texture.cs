@@ -90,5 +90,37 @@ namespace RT.Render
                 (int)TextureMagFilter.Nearest
                 );
         }
+
+        private void SetParametersWithAniso()
+        {
+            GL.TexParameter(
+                TextureTarget.Texture2D,
+                TextureParameterName.TextureWrapS,
+                (int)TextureWrapMode.ClampToEdge
+                );
+
+            GL.TexParameter(
+                TextureTarget.Texture2D,
+                TextureParameterName.TextureWrapT,
+                (int)TextureWrapMode.ClampToEdge
+                );
+
+            GL.TexParameter(
+                TextureTarget.Texture2D,
+                TextureParameterName.TextureMinFilter,
+                (int)TextureMinFilter.NearestMipmapNearest
+                );
+
+            GL.TexParameter(
+                TextureTarget.Texture2D,
+                TextureParameterName.TextureMagFilter,
+                (int)TextureMagFilter.Nearest
+                );
+
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            float maxAniso = GL.GetFloat((GetPName)All.MaxTextureMaxAnisotropy);
+            GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)All.MaxTextureMaxAnisotropy, maxAniso);
+        }
     }
 }
