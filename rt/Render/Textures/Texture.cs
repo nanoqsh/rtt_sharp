@@ -9,7 +9,7 @@ namespace RT.Render.Textures
     {
         public int Index { get; private set; }
 
-        public Texture(Bitmap bitmap, bool aniso = false)
+        public Texture(Bitmap bitmap)
         {
             Index = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, Index);
@@ -34,15 +34,12 @@ namespace RT.Render.Textures
 
             bitmap.UnlockBits(bitData);
 
-            if (aniso)
-                SetParametersWithAniso();
-            else
-                SetDefaultParameters();
+            SetParameters();
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public Texture(int width, int height, bool aniso = false)
+        public Texture(int width, int height)
         {
             Index = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, Index);
@@ -59,10 +56,7 @@ namespace RT.Render.Textures
                 IntPtr.Zero
                 );
 
-            if (aniso)
-                SetParametersWithAniso();
-            else
-                SetDefaultParameters();
+            SetParameters();
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
@@ -72,7 +66,7 @@ namespace RT.Render.Textures
             GL.DeleteTexture(Index);
         }
 
-        private void SetDefaultParameters()
+        protected virtual void SetParameters()
         {
             GL.TexParameter(
                 TextureTarget.Texture2D,
@@ -97,38 +91,6 @@ namespace RT.Render.Textures
                 TextureParameterName.TextureMagFilter,
                 (int)TextureMagFilter.Nearest
                 );
-        }
-
-        private void SetParametersWithAniso()
-        {
-            GL.TexParameter(
-                TextureTarget.Texture2D,
-                TextureParameterName.TextureWrapS,
-                (int)TextureWrapMode.ClampToEdge
-                );
-
-            GL.TexParameter(
-                TextureTarget.Texture2D,
-                TextureParameterName.TextureWrapT,
-                (int)TextureWrapMode.ClampToEdge
-                );
-
-            GL.TexParameter(
-                TextureTarget.Texture2D,
-                TextureParameterName.TextureMinFilter,
-                (int)TextureMinFilter.NearestMipmapNearest
-                );
-
-            GL.TexParameter(
-                TextureTarget.Texture2D,
-                TextureParameterName.TextureMagFilter,
-                (int)TextureMagFilter.Nearest
-                );
-
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-            float maxAniso = GL.GetFloat((GetPName)All.MaxTextureMaxAnisotropy);
-            GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)All.MaxTextureMaxAnisotropy, maxAniso);
         }
 
         public void Bind(int uniform, int unit = 0)
