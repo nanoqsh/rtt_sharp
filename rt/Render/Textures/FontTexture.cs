@@ -1,13 +1,12 @@
 ﻿using OpenTK.Graphics.OpenGL4;
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace RT.Render.UI
+namespace RT.Render.Textures
 {
-    class FontTexture : IDisposable
+    class FontTexture : ITexture
     {
-        public readonly int Index;
+        public int Index { get; private set; }
 
         public FontTexture(Bitmap bitmap)
         {
@@ -64,6 +63,13 @@ namespace RT.Render.UI
         public void Dispose()
         {
             GL.DeleteTexture(Index);
+        }
+
+        public void Bind(int uniform, int unit = 0)
+        {
+            GL.Uniform1(uniform, 0);
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, Index);
         }
     }
 }

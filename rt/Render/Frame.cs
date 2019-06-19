@@ -2,7 +2,6 @@
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using RT.Engine;
-using RT.Render.UI;
 
 namespace RT.Render
 {
@@ -12,7 +11,6 @@ namespace RT.Render
         private readonly Camera camera;
         public Rectangle Size { get; private set; }
         public Matrix4 Ortho { get; private set; }
-        private readonly Font font;
         private readonly Postprocessor post;
         private readonly int pixelSize = 1;
 
@@ -30,7 +28,6 @@ namespace RT.Render
 
             GL.Enable(EnableCap.Multisample);
 
-            font = new Font(this);
             post = new Postprocessor();
         }
 
@@ -40,7 +37,7 @@ namespace RT.Render
 
             GL.Enable(EnableCap.DepthTest);
 
-            GL.ClearColor(Color.DarkCyan);
+            GL.ClearColor(Color.MidnightBlue);
             GL.Clear(
                   ClearBufferMask.ColorBufferBit
                 | ClearBufferMask.DepthBufferBit
@@ -58,7 +55,7 @@ namespace RT.Render
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, Core.Unit.SpriteMap.Texture.Index);
 
-            Color4 fogColour = Color4.DarkCyan;
+            Color4 fogColour = Color4.MidnightBlue;
             GL.Uniform4(shader.GetUniformIndex("fog_colour"), fogColour);
 
             foreach ((Mesh m, Vector3 v) in Core.Unit.Map.World.GetMeshes(shader))
@@ -74,20 +71,6 @@ namespace RT.Render
             GL.Disable(EnableCap.DepthTest);
 
             post.Draw();
-
-            /*
-            int step = 32;
-            font.Scale = 4;
-            
-            font.Inverted = true;
-            font.Draw(" `1234567890-=qwertyuiop[]", -400, 0);
-            font.Inverted = false;
-            font.Draw("asdfghjkl;'\\zxcvbnm,./", -400, -step - font.Scale);
-            font.Inverted = true;
-            font.Draw("~!@#$%^&*()_+QWERTYUIOP{}", -400, -step * 2 - font.Scale * 2);
-            font.Inverted = false;
-            font.Draw("ASDFGHJKL:\"|ZXCVBNM<>?", -400, -step * 3 - font.Scale * 3);
-            */
         }
 
         public void Resize(Rectangle size)
@@ -96,7 +79,7 @@ namespace RT.Render
             Size = size;
             Ortho = Matrix4.CreateOrthographic(size.Width, size.Height, -100, 100);
 
-            post.Resize(size.Width, size.Height, pixelSize);
+            post.Resize(size.Width, size.Height, 0, pixelSize);
         }
     }
 }

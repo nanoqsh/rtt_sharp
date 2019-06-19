@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using RT.Render.Textures;
 using System;
 using System.Runtime.InteropServices;
 
@@ -75,9 +76,7 @@ namespace RT.Render.UI
             Matrix4 projection = frame.Ortho;
             GL.UniformMatrix4(shader.GetUniformIndex("projection"), false, ref projection);
 
-            GL.Uniform1(shader.GetUniformIndex("font"), 0);
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, texture.Index);
+            texture.Bind(shader.GetUniformIndex("font"));
 
             int inverted = Inverted ? 1 : 0;
             GL.Uniform1(shader.GetUniformIndex("inverted"), inverted);

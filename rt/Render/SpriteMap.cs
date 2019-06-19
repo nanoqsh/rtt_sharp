@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using RT.Render.Textures;
 
 namespace RT.Render
 {

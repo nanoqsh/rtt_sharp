@@ -3,13 +3,13 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace RT.Render
+namespace RT.Render.Textures
 {
-    class Texture : IDisposable
+    class Texture : ITexture
     {
-        public readonly int Index;
+        public int Index { get; private set; }
 
-        public Texture(Bitmap bitmap)
+        public Texture(Bitmap bitmap, bool aniso = false)
         {
             Index = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, Index);
@@ -34,11 +34,15 @@ namespace RT.Render
 
             bitmap.UnlockBits(bitData);
 
-            SetDefaultParameters();
+            if (aniso)
+                SetParametersWithAniso();
+            else
+                SetDefaultParameters();
+
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public Texture(int width, int height)
+        public Texture(int width, int height, bool aniso = false)
         {
             Index = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, Index);
@@ -55,7 +59,11 @@ namespace RT.Render
                 IntPtr.Zero
                 );
 
-            SetDefaultParameters();
+            if (aniso)
+                SetParametersWithAniso();
+            else
+                SetDefaultParameters();
+
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
@@ -121,6 +129,13 @@ namespace RT.Render
 
             float maxAniso = GL.GetFloat((GetPName)All.MaxTextureMaxAnisotropy);
             GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)All.MaxTextureMaxAnisotropy, maxAniso);
+        }
+
+        public void Bind(int uniform, int unit = 0)
+        {
+            GL.Uniform1(uniform, unit);
+            GL.ActiveTexture(TextureUnit.Texture0 + unit);
+            GL.BindTexture(TextureTarget.Texture2D, Index);
         }
     }
 }

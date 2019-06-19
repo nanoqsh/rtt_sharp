@@ -59,11 +59,9 @@ namespace RT.Render
             frameBuffer?.Dispose();
         }
 
-        public void Resize(int width, int height, int pixelSize)
+        public void Resize(int width, int height, int samples, int pixelSize)
         {
             frameBuffer?.Dispose();
-
-            int samples = 4;
 
             if (samples == 0)
                 frameBuffer = new FrameBuffer(
