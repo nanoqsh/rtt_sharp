@@ -3,39 +3,42 @@ using System;
 
 namespace RT.Render.FrameBuffers
 {
-    class FrameBuffer : IFrameBuffer
+    class DepthBuffer : IFrameBuffer
     {
-        private readonly int frame;
-        private readonly int renderBuffer;
-        private readonly int frameBuffer;
+        public const int SHADOW_WIDTH = 1024;
+        public const int SHADOW_HEIGHT = 1024;
 
-        public FrameBuffer(int width, int height)
+        private readonly int depthFrameBuffer;
+        private readonly int depthFrame;
+
+        public DepthBuffer()
         {
-            frame = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, frame);
+            depthFrameBuffer = GL.GenFramebuffer();
 
+            depthFrame = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, depthFrame);
             GL.TexImage2D(
                 TextureTarget.Texture2D,
                 0,
-                PixelInternalFormat.Rgba,
-                width,
-                height,
+                PixelInternalFormat.DepthComponent,
+                SHADOW_WIDTH,
+                SHADOW_HEIGHT,
                 0,
-                PixelFormat.Bgra,
-                PixelType.UnsignedByte,
+                PixelFormat.DepthComponent,
+                PixelType.Float,
                 IntPtr.Zero
                 );
 
             GL.TexParameter(
                 TextureTarget.Texture2D,
                 TextureParameterName.TextureWrapS,
-                (int)TextureWrapMode.ClampToEdge
+                (int)TextureWrapMode.Repeat
                 );
 
             GL.TexParameter(
                 TextureTarget.Texture2D,
                 TextureParameterName.TextureWrapT,
-                (int)TextureWrapMode.ClampToEdge
+                (int)TextureWrapMode.Repeat
                 );
 
             GL.TexParameter(
@@ -50,36 +53,17 @@ namespace RT.Render.FrameBuffers
                 (int)TextureMagFilter.Nearest
                 );
 
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-
-            frameBuffer = GL.GenFramebuffer();
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, frameBuffer);
-
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, depthFrameBuffer);
             GL.FramebufferTexture2D(
                 FramebufferTarget.Framebuffer,
-                FramebufferAttachment.ColorAttachment0,
+                FramebufferAttachment.DepthAttachment,
                 TextureTarget.Texture2D,
-                frame,
+                depthFrame,
                 0
                 );
 
-            renderBuffer = GL.GenRenderbuffer();
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, renderBuffer);
-
-            GL.RenderbufferStorage(
-                RenderbufferTarget.Renderbuffer,
-                RenderbufferStorage.Depth24Stencil8,
-                width,
-                height
-                );
-
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
-            GL.FramebufferRenderbuffer(
-                FramebufferTarget.Framebuffer,
-                FramebufferAttachment.DepthStencilAttachment,
-                RenderbufferTarget.Renderbuffer,
-                renderBuffer
-                );
+            GL.DrawBuffer(DrawBufferMode.None);
+            GL.ReadBuffer(ReadBufferMode.None);
 
             FramebufferErrorCode status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
             if (status != FramebufferErrorCode.FramebufferComplete)
@@ -90,7 +74,7 @@ namespace RT.Render.FrameBuffers
 
         public void Bind()
         {
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, frameBuffer);
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, depthFrameBuffer);
         }
 
         public void Unbind()
@@ -102,14 +86,13 @@ namespace RT.Render.FrameBuffers
         {
             GL.Uniform1(frameUniformIndex, 0);
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, frame);
+            GL.BindTexture(TextureTarget.Texture2D, depthFrame);
         }
 
         public void Dispose()
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            GL.DeleteRenderbuffer(renderBuffer);
-            GL.DeleteFramebuffer(frameBuffer);
+            GL.DeleteFramebuffer(depthFrameBuffer);
         }
     }
 }

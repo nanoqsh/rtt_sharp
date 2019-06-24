@@ -31,6 +31,7 @@ namespace RT
         {
             Resource.LoadTile("brick.json");
             Resource.LoadTile("pyramid.json");
+            Resource.LoadTile("debug.json");
         }
 
         public void Init()
