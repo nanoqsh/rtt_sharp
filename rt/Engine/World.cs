@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using RT.Render;
+using System;
 using System.Collections.Generic;
 
 namespace RT.Engine
@@ -64,6 +65,10 @@ namespace RT.Engine
 
         public List<(Mesh, Vector3)> GetMeshes(ShaderProgram shader)
         {
+            bool check = Core.Unit.SpriteMap != null;
+            if (!check)
+                throw new Exception("SpriteMap is required");
+
             List<(Mesh, Vector3)> result = new List<(Mesh, Vector3)>();
 
             foreach (Chunk chunk in chunks.Values)

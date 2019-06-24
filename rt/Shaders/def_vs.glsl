@@ -1,6 +1,6 @@
 #version 330 core
 
-in vec3 position;
+layout (location = 0) in vec3 position;
 in vec2 texture_map;
 in vec3 normal;
 
