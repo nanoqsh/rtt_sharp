@@ -70,7 +70,7 @@ namespace RT.Engine
             {
                 Point point = new Point(player.Position + player.Camera.Front);
 
-                Tile tile = Core.Unit.Resource.LoadTile("brick.json");
+                Tile tile = Core.Unit.Resource.LoadTile("debug.json");
                 World.SetBlock(point, tile);
             }
         }

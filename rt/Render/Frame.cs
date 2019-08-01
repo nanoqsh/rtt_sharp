@@ -91,9 +91,11 @@ namespace RT.Render
             Matrix4 view = camera.View;
             GL.UniformMatrix4(shader.GetUniformIndex("view"), false, ref view);
 
-            GL.Uniform1(shader.GetUniformIndex("layer0"), 0);
-            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.Uniform1(shader.GetUniformIndex("layer0"), 1);
+            GL.ActiveTexture(TextureUnit.Texture0 + 1);
             GL.BindTexture(TextureTarget.Texture2D, Core.Unit.SpriteMap.Texture.Index);
+
+            depthBuffer.BindFrameTexture(shader.GetUniformIndex("shadow_map"));
 
             Color4 fogColour = Color4.MidnightBlue;
             GL.Uniform4(shader.GetUniformIndex("fog_colour"), fogColour);
@@ -115,7 +117,6 @@ namespace RT.Render
 
         public void Resize(Rectangle size)
         {
-            // GL.Viewport(size);
             Size = size;
             Ortho = Matrix4.CreateOrthographic(size.Width, size.Height, -100, 100);
 
