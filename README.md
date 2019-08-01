@@ -35,3 +35,10 @@ It looks like:
 
 ![screenshot](tile2.png)
 
+Flip also support:
+```json
+{
+  "transform": [ "flip_x" ]
+}
+```
+
