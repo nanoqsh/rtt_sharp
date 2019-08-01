@@ -7,13 +7,17 @@ Any tile can be described with any shape.
 This debug tile. It described as follows:
 ```json
 {
-  "models": [ "cube.json" ], // 3D model of tile
-  "textures": [ "u.png", "d.png", "f.png", "b.png", "l.png", "r.png" ], // Textures for all sides
+  "_// 3D model of tile": [],
+  "models": [ "cube.json" ],
+  "_// Textures for all sides": [],
+  "textures": [ "u.png", "d.png", "f.png", "b.png", "l.png", "r.png" ],
   "states": [
     {
-      "model": 0, // Model index
-      "layers": [ 0, 1, 2, 3, 4, 5 ], // Texture layers
-      "transform": [ ] // Any 3D transforms
+      "_// Model index": [],
+      "model": 0,
+      "_// Texture layers": [],
+      "layers": [ 0, 1, 2, 3, 4, 5 ],
+      "transform": [ ]
     }
   ]
 }
@@ -23,7 +27,8 @@ This debug tile. It described as follows:
 When "transform" contains any actions, for example "turn_x" - it means: "Turn the tile by 90 degrees around axis X"
 ```json
 {
-  "transform": [ "turn_x" ] // Any 3D transforms
+  "_// Any 3D transforms": [],
+  "transform": [ "turn_x" ]
 }
 ```
 It looks like:
